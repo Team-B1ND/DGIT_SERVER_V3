@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dgit?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: hong3622!
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+app:
+  jwt:
+    access: d1g2i3t4
+    refresh: d1g2i3t4!
+    access_expire: 86400000
+    refresh_expire: 2073600000
+
+logging:
+  level:
+    org.springframework.boot.autoconfigure: ERROR
