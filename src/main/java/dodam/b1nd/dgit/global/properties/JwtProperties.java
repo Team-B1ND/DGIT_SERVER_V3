@@ -1,19 +1,14 @@
 package dodam.b1nd.dgit.global.properties;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.context.annotation.Configuration;
 
 @Getter
-@RequiredArgsConstructor
-@ConstructorBinding
-@ConfigurationProperties(prefix = "app.jwt")
+@Setter
+@Configuration
+@ConfigurationProperties("app.jwt")
 public class JwtProperties {
-
-    private final String access;
-    private final String refresh;
-    private final int access_expire;
-    private final int refresh_expire;
-
+    private String key;
 }

@@ -1,7 +1,7 @@
-package dodam.b1nd.dgit.global.auth.interceptor;
+package dodam.b1nd.dgit.global.interceptor;
 
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.global.auth.annotation.AuthCheck;
+import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.lib.jwt.JwtType;
 import dodam.b1nd.dgit.global.lib.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,6 @@ public class AuthInterceptor implements HandlerInterceptor {
             String token = getTokenOfRequest(request).split(" ")[1];
 
             User user = jwtUtil.getUserByToken(JwtType.access, token);
-
             request.setAttribute("user", user);
 
         } catch (Exception e) {
