@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.global.jpa;
+package dodam.b1nd.dgit.global.lib.jpa;
 
 
 import org.springframework.data.annotation.CreatedDate;

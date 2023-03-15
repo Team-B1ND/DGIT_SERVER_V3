@@ -1,6 +1,6 @@
 package dodam.b1nd.dgit.global.config;
 
-import dodam.b1nd.dgit.global.auth.interceptor.AuthInterceptor;
+import dodam.b1nd.dgit.global.interceptor.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

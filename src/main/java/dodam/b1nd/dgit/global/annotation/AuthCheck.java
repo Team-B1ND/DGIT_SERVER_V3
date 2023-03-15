@@ -1,9 +1,9 @@
-package dodam.b1nd.dgit.global.auth.annotation;
+package dodam.b1nd.dgit.global.annotation;
 
 import java.lang.annotation.*;
 
+@Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
 public @interface AuthCheck {
 }

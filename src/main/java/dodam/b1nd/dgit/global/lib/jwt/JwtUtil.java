@@ -1,15 +1,17 @@
 package dodam.b1nd.dgit.global.lib.jwt;
 
-import dodam.b1nd.dgit.domain.auth.presentation.dto.TokenResponse;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.domain.user.service.UserService;
-import dodam.b1nd.dgit.global.error.CustomException;
+import dodam.b1nd.dgit.global.error.CustomError;
+import dodam.b1nd.dgit.global.error.ErrorCode;
 import dodam.b1nd.dgit.global.properties.JwtProperties;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.events.EventException;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -17,57 +19,54 @@ import java.util.Date;
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
-    private final UserService userService;
 
-    private String generateToken(JwtType jwtType, String id) {
-        Date expiredDate = new Date();
-        String secretKey;
+    private Key getSignKey(String secretKey) {
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
-        if(jwtType==JwtType.access) {
-            secretKey = jwtProperties.getAccess();
-            expiredDate = new Date(expiredDate.getTime() + jwtProperties.getAccess_expire());
-        } else {
-            secretKey = jwtProperties.getRefresh();
-            expiredDate = new Date(expiredDate.getTime() + jwtProperties.getRefresh_expire());
-        }
+    public String generateToken(String id, Long time, JwtType type) {
+        Claims claims = Jwts.claims();
+        claims.put("id", id);
+        claims.put("type", type);
+
+        Date now = new Date();
 
         return Jwts.builder()
-                .setId(id)
-                .setSubject(jwtType.toString())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expiredDate)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + time))
+                .signWith(getSignKey(jwtProperties.getKey()), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    private Claims getClaims(JwtType jwtType, final String token) {
+    public Claims extractAllClaims(String token) throws ExpiredJwtException, IllegalArgumentException, UnsupportedJwtException, MalformedJwtException {
         try {
-            return Jwts.parser()
-                    .setSigningKey(jwtType==JwtType.access ? jwtProperties.getAccess() : jwtProperties.getRefresh())
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSignKey(jwtProperties.getKey()))
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            throw new CustomException(HttpStatus.BAD_REQUEST, "expired token");
+            throw CustomError.of(ErrorCode.TOKEN_EXPIRED);
+        } catch (IllegalArgumentException e) {
+            throw CustomError.of(ErrorCode.TOKEN_NOT_PROVIDED);
+        } catch (UnsupportedJwtException | MalformedJwtException e) {
+            throw CustomError.of(ErrorCode.INVALID_TOKEN);
+        } catch (EventException e) {
+            throw e;
         }
     }
 
-    public User getUserByToken(JwtType jwtType, final String token) {
-        return userService.findById(getClaims(jwtType, token).getId());
-    }
-
-    public TokenResponse receiveToken(final String id) {
-        return new TokenResponse(
-                generateToken(JwtType.access, id),
-                generateToken(JwtType.refresh, id)
-        );
-    }
-
-    public String refreshToken(String refreshToken) {
-        if (refreshToken == null || refreshToken.trim().isEmpty()) {
-            throw new CustomException(HttpStatus.BAD_REQUEST, "wrong token");
+    public JwtType checkTokenType(String token) {
+        if ("REFRESH".equals(extractAllClaims(token).get("type"))) {
+            return JwtType.REFRESH;
+        } else {
+            return JwtType.ACCESS;
         }
-
-        return generateToken(JwtType.access, getUserByToken(JwtType.refresh, refreshToken).getId());
     }
 
+    public User getUserByToken(String token) {
+        return userService.getUserByEmail(extractAllClaims(token).get("email").toString());
+    }
 }
