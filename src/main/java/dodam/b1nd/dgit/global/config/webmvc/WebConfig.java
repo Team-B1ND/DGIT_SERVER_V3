@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.global.config;
+package dodam.b1nd.dgit.global.config.webmvc;
 
 import dodam.b1nd.dgit.global.interceptor.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
