@@ -1,26 +1,22 @@
 package dodam.b1nd.dgit.domain.user.domain.entity;
 
 import dodam.b1nd.dgit.domain.githubuser.domain.entity.GithubUser;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    @Id
-    private String id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
+
+    @NotNull
+    private String email;
 
     @NotNull
     private String name;
@@ -28,4 +24,9 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private GithubUser githubUser;
 
+    @Builder
+    public User(String email, String name) {
+        this.email = email;
+        this.name = name;
+    }
 }
