@@ -35,8 +35,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         try {
             String token = getTokenOfRequest(request).split(" ")[1];
+            User user = jwtUtil.getUserByToken(token);
 
-            User user = jwtUtil.getUserByToken(JwtType.access, token);
             request.setAttribute("user", user);
 
         } catch (Exception e) {
@@ -58,5 +58,4 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         return Strings.EMPTY;
     }
-
 }

@@ -1,6 +1,7 @@
 package dodam.b1nd.dgit.global.lib.jwt;
 
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
+import dodam.b1nd.dgit.domain.user.service.UserService;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import dodam.b1nd.dgit.global.properties.JwtProperties;
@@ -19,15 +20,16 @@ import java.util.Date;
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
+    private final UserService userService;
 
     private Key getSignKey(String secretKey) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String id, Long time, JwtType type) {
+    public String generateToken(String email, Long time, JwtType type) {
         Claims claims = Jwts.claims();
-        claims.put("id", id);
+        claims.put("email", email);
         claims.put("type", type);
 
         Date now = new Date();
