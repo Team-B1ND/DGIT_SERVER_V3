@@ -1,0 +1,16 @@
+package dodam.b1nd.dgit.domain.auth.presentation.dto.api;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class UserInfoDto {
+    private int grade;
+    private int room;
+    private int number;
+    private String name;
+    private String profileImage;
+    private String email;
+}
