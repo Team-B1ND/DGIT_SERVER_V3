@@ -1,7 +1,7 @@
 package dodam.b1nd.dgit.domain.githubuser.domain.entity;
 
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.global.jpa.BaseTimeEntity;
+import dodam.b1nd.dgit.global.lib.jpa.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
