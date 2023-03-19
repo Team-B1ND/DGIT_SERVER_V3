@@ -1,0 +1,19 @@
+query GetContribution($login: String!) {
+    user(login: $login) {
+        login
+        avatarUrl
+        bio
+        contributionsCollection {
+            contributionCalendar {
+                totalContributions
+                weeks {
+                    contributionDays {
+                        contributionCount
+                        date
+                        weekday
+                    }
+                }
+            }
+        }
+    }
+}
