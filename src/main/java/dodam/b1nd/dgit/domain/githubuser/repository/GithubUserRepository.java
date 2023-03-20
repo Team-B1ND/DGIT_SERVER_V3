@@ -1,6 +1,6 @@
-package dodam.b1nd.dgit.domain.github.repository;
+package dodam.b1nd.dgit.domain.githubuser.repository;
 
-import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
+import dodam.b1nd.dgit.domain.githubuser.domain.entity.GithubUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

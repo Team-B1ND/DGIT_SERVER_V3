@@ -1,7 +1,7 @@
-package dodam.b1nd.dgit.domain.github.presentation.controller;
+package dodam.b1nd.dgit.domain.githubuser.presentation.controller;
 
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
-import dodam.b1nd.dgit.domain.github.service.GithubUserService;
+import dodam.b1nd.dgit.domain.githubuser.presentation.dto.GithubUserDto;
+import dodam.b1nd.dgit.domain.githubuser.service.GithubUserService;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
