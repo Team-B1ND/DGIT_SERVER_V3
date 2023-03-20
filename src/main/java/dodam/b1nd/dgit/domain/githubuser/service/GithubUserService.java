@@ -1,10 +1,10 @@
-package dodam.b1nd.dgit.domain.github.service;
+package dodam.b1nd.dgit.domain.githubuser.service;
 
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
-import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
-import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
+import dodam.b1nd.dgit.domain.githubuser.domain.entity.GithubUser;
+import dodam.b1nd.dgit.domain.githubuser.presentation.dto.GithubUserDto;
+import dodam.b1nd.dgit.domain.githubuser.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
@@ -18,7 +18,7 @@ import github.query.GetContributionQuery;
 import javax.validation.constraints.NotNull;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class GithubUserService {
 
@@ -47,7 +47,6 @@ public class GithubUserService {
                                 .builder()
                                 .login(userId)
                                 .build())
-//                .toBuilder().build()
         ).join();
     }
 
