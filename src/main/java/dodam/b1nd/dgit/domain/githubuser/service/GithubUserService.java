@@ -9,11 +9,11 @@ import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import dodam.b1nd.dgit.global.lib.apolloclient.ApolloClientUtil;
+import github.query.GetUserQuery;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import github.query.GetContributionQuery;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,12 +28,12 @@ public class GithubUserService {
     @Transactional
     public void save(User user, GithubUserDto githubUserDto) {
         existUser(githubUserDto.getGithubId());
-        GetContributionQuery.Data data = getData(githubUserDto.getGithubId()).getData();
+        GetUserQuery.Data data = getData(githubUserDto.getGithubId()).getData();
         githubUserRepository.save(githubUserResponseToEntity(user, data.user()));
     }
 
-    public Response<GetContributionQuery.Data> getData(String userId) {
-        Response<GetContributionQuery.Data> responseData = getResponseData(userId);
+    public Response<GetUserQuery.Data> getData(String userId) {
+        Response<GetUserQuery.Data> responseData = getResponseData(userId);
         if (responseData.getData().user() == null) {
             throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);
         }
@@ -41,16 +41,16 @@ public class GithubUserService {
         return responseData;
     }
 
-    private <T> Response<GetContributionQuery.Data> getResponseData(@NotNull String userId) {
+    private <T> Response<GetUserQuery.Data> getResponseData(@NotNull String userId) {
         return ApolloClientUtil.toCompletableFuture(apolloClient.query(
-                        GetContributionQuery
-                                .builder()
-                                .login(userId)
-                                .build())
+                GetUserQuery
+                        .builder()
+                        .login(userId)
+                        .build())
         ).join();
     }
 
-    private GithubUser githubUserResponseToEntity(final User user, @NonNull GetContributionQuery.User githubUser) {
+    private GithubUser githubUserResponseToEntity(final User user, @NonNull GetUserQuery.User githubUser) {
         return GithubUser.builder()
                 .githubId(githubUser.login())
                 .user(user)
