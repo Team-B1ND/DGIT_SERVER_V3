@@ -28,10 +28,8 @@ public class GithubUser extends BaseTimeEntity {
     @JoinColumn(name = "fk_user_id")
     private User user;
 
-    @NotNull
     private String userImage;
 
-    @NotNull
     private String bio;
 
     public void update(int totalContributions, String userImage, String bio) {
@@ -39,5 +37,4 @@ public class GithubUser extends BaseTimeEntity {
         this.userImage = userImage;
         this.bio = bio;
     }
-
 }
