@@ -1,8 +1,11 @@
-query GetContribution($login: String!) {
+query GetUser($login: String!) {
     user(login: $login) {
         login
         avatarUrl
         bio
+        pullRequests {
+            totalCount
+        }
         contributionsCollection {
             contributionCalendar {
                 totalContributions

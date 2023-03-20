@@ -1,0 +1,6 @@
+query GetRepository($name: String!, $owner: String!) {
+    repository(name: $name, owner: $owner) {
+        stargazerCount
+        url
+    }
+}
