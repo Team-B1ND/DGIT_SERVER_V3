@@ -1,6 +1,6 @@
 package dodam.b1nd.dgit.domain.user.domain.entity;
 
-import dodam.b1nd.dgit.domain.githubuser.domain.entity.GithubUser;
+import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import lombok.*;
 
 import javax.persistence.*;

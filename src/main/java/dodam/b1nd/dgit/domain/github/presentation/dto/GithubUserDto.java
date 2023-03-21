@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.domain.githubuser.presentation.dto;
+package dodam.b1nd.dgit.domain.github.presentation.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
