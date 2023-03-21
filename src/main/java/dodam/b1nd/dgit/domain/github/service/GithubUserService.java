@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,7 +38,6 @@ public class GithubUserService {
         if (responseData.getData().user() == null) {
             throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);
         }
-
         return responseData;
     }
 
@@ -61,8 +61,22 @@ public class GithubUserService {
                 .build();
     }
 
-    public void existUser(final String githubId) {
+    private void existUser(final String githubId) {
         githubUserRepository.findById(githubId)
                 .ifPresent(githubUser -> CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND));
+    }
+
+    @Transactional
+    public void update(final GithubUser userData, final GetUserQuery.User githubUser) {
+        userData.update(
+                githubUser.contributionsCollection().contributionCalendar().totalContributions(),
+                githubUser.pullRequests().totalCount(),
+                githubUser.avatarUrl().toString(),
+                githubUser.bio()
+        );
+    }
+
+    public List<GithubUser> getGithubUserList() {
+        return githubUserRepository.findAll();
     }
 }

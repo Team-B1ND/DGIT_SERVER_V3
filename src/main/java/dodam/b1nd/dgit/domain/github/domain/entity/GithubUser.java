@@ -27,7 +27,7 @@ public class GithubUser extends BaseTimeEntity {
     @NotNull
     private int pullRequest;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "fk_user_id")
     private User user;
 
