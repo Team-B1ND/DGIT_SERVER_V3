@@ -24,6 +24,9 @@ public class GithubUser extends BaseTimeEntity {
     @NotNull
     private int totalContributions;
 
+    @NotNull
+    private int pullRequest;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "fk_user_id")
     private User user;
@@ -32,8 +35,9 @@ public class GithubUser extends BaseTimeEntity {
 
     private String bio;
 
-    public void update(int totalContributions, String userImage, String bio) {
+    public void update(int totalContributions, int pullRequest, String userImage, String bio) {
         this.totalContributions = totalContributions;
+        this.pullRequest = pullRequest;
         this.userImage = userImage;
         this.bio = bio;
     }

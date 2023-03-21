@@ -55,6 +55,7 @@ public class GithubUserService {
                 .githubId(githubUser.login())
                 .user(user)
                 .totalContributions(githubUser.contributionsCollection().contributionCalendar().totalContributions())
+                .pullRequest(githubUser.pullRequests().totalCount())
                 .userImage(githubUser.avatarUrl().toString())
                 .bio(githubUser.bio())
                 .build();
