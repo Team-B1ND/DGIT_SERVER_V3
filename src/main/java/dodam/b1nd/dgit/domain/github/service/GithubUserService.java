@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -67,8 +68,9 @@ public class GithubUserService {
     }
 
     @Transactional
-    public void update(final GithubUser userData, final GetUserQuery.User githubUser) {
-        userData.update(
+    public void update(final GetUserQuery.User githubUser) {
+        GithubUser user = githubUserRepository.findById(githubUser.login()).get();
+        user.update(
                 githubUser.contributionsCollection().contributionCalendar().totalContributions(),
                 githubUser.pullRequests().totalCount(),
                 githubUser.avatarUrl().toString(),
