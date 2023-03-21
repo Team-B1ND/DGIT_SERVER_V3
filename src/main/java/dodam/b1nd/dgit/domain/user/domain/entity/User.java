@@ -21,7 +21,7 @@ public class User {
     @NotNull
     private String name;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private GithubUser githubUser;
 
     @Builder
