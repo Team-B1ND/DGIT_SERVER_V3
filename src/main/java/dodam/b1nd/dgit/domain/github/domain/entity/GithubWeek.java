@@ -21,7 +21,7 @@ public class GithubWeek {
     private int contribute;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_github_id")
+    @JoinColumn(name = "fk_github_id", nullable = false)
     private GithubUser githubUser;
 
     @Builder
