@@ -35,10 +35,17 @@ public class GithubUser extends BaseTimeEntity {
 
     private String bio;
 
+    @OneToOne(mappedBy = "githubUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private GithubWeek githubweek;
+
     public void update(int totalContributions, int pullRequest, String userImage, String bio) {
         this.totalContributions = totalContributions;
         this.pullRequest = pullRequest;
         this.userImage = userImage;
         this.bio = bio;
+    }
+
+    public void setWeek(GithubWeek githubweek) {
+        this.githubweek = githubweek;
     }
 }

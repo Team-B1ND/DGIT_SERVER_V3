@@ -6,9 +6,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GithubTotalDto {
+public class GithubRankDto {
     private String githubId;
-    private int totalContributions;
+    private int Contributions;
     private String userImage;
     private String bio;
 }
