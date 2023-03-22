@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저"),
+    WEEK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Week"),
     GITHUB_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Github 유저"),
     GITHUB_USER_EXIST(HttpStatus.CONFLICT, "이미 존재하는 Github 유저"),
     INVALID_TOKEN(HttpStatus.FORBIDDEN, "유효하지 않은 토큰"),
