@@ -46,11 +46,11 @@ public class GithubWeekService {
     }
 
     @Transactional
-    public void update(GetUserQuery.User githubData) {
+    public void update(GithubUser githubUser, GetUserQuery.User githubData) {
 
         int contribute = getContribute(githubData);
 
-        GithubWeek githubWeek = githubWeekRepository.findByGithubUser(githubData.login())
+        GithubWeek githubWeek = githubWeekRepository.findByGithubUser(githubUser)
                 .orElseThrow(() -> {throw CustomError.of(ErrorCode.WEEK_NOT_FOUND);});
 
         githubWeek.update(contribute);
