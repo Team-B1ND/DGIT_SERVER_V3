@@ -8,11 +8,13 @@ import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import github.query.GetUserQuery;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,7 +44,18 @@ public class GithubWeekService {
     }
 
     public List<GithubRankDto> getWeekListSort() {
-        return null;
+        List<GithubWeek> githubWeekList = githubWeekRepository.findAll(Sort.by(Sort.Direction.DESC, "contribute"));
+
+        List<GithubRankDto> result = githubWeekList.stream()
+                .map(githubWeek ->
+                        GithubRankDto.builder()
+                                .githubId(githubWeek.getGithubUser().getGithubId())
+                                .contributions(githubWeek.getContribute())
+                                .userImage(githubWeek.getGithubUser().getUserImage())
+                                .bio(githubWeek.getGithubUser().getBio()).build()
+                ).collect(Collectors.toList());
+
+        return result;
     }
 
     @Transactional

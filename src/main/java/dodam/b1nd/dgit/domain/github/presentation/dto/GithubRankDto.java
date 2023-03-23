@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GithubRankDto {
     private String githubId;
-    private int Contributions;
+    private int contributions;
     private String userImage;
     private String bio;
 }
