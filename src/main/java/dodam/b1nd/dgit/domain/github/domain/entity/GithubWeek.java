@@ -20,7 +20,7 @@ public class GithubWeek {
     @NotNull
     private int contribute;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_github_id", nullable = false)
     private GithubUser githubUser;
 

@@ -3,7 +3,6 @@ package dodam.b1nd.dgit.domain.github.service;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
-import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
@@ -34,9 +33,7 @@ public class GithubUserService {
         GetUserQuery.Data data = getData(githubUserDto.getGithubId()).getData();
 
         GithubUser githubUser = githubUserRepository.save(githubUserResponseToEntity(user, data.user()));
-        GithubWeek githubWeek = githubWeekService.save(data.user(), githubUser);
-
-        githubUser.setWeek(githubWeek);
+        githubWeekService.save(data.user(), githubUser);
     }
 
     public Response<GetUserQuery.Data> getData(String userId) {
