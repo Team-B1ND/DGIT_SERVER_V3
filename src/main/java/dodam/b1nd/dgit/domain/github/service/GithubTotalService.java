@@ -25,7 +25,7 @@ public class GithubTotalService {
                 .map(githubUser ->
                         GithubRankDto.builder()
                                 .githubId(githubUser.getGithubId())
-                                .Contributions(githubUser.getTotalContributions())
+                                .contributions(githubUser.getTotalContributions())
                                 .userImage(githubUser.getUserImage())
                                 .bio(githubUser.getBio()).build()
                 ).collect(Collectors.toList());
