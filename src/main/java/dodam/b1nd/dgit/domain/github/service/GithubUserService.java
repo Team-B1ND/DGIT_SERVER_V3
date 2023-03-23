@@ -3,6 +3,7 @@ package dodam.b1nd.dgit.domain.github.service;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
+import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,13 +25,18 @@ import java.util.Optional;
 public class GithubUserService {
 
     private final ApolloClient apolloClient;
+    private final GithubWeekService githubWeekService;
     private final GithubUserRepository githubUserRepository;
 
     @Transactional
     public void save(User user, GithubUserDto githubUserDto) {
         existUser(githubUserDto.getGithubId());
         GetUserQuery.Data data = getData(githubUserDto.getGithubId()).getData();
-        githubUserRepository.save(githubUserResponseToEntity(user, data.user()));
+
+        GithubUser githubUser = githubUserRepository.save(githubUserResponseToEntity(user, data.user()));
+        GithubWeek githubWeek = githubWeekService.save(data.user(), githubUser);
+
+        githubUser.setWeek(githubWeek);
     }
 
     public Response<GetUserQuery.Data> getData(String userId) {
@@ -64,7 +69,7 @@ public class GithubUserService {
 
     private void existUser(final String githubId) {
         githubUserRepository.findById(githubId)
-                .ifPresent(githubUser -> CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND));
+                .ifPresent(githubUser -> CustomError.of(ErrorCode.GITHUB_USER_EXIST));
     }
 
     @Transactional

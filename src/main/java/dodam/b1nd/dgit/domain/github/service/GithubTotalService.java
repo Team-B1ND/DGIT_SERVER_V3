@@ -1,7 +1,7 @@
 package dodam.b1nd.dgit.domain.github.service;
 
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubTotalDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.GithubRankDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -18,14 +18,14 @@ public class GithubTotalService {
 
     private final GithubUserRepository githubUserRepository;
 
-    public List<GithubTotalDto> getTotalListSort() {
+    public List<GithubRankDto> getTotalListSort() {
         List<GithubUser> githubUserList = githubUserRepository.findAll(Sort.by(Sort.Direction.DESC, "totalContributions"));
 
-        List<GithubTotalDto> result = githubUserList.stream()
+        List<GithubRankDto> result = githubUserList.stream()
                 .map(githubUser ->
-                        GithubTotalDto.builder()
+                        GithubRankDto.builder()
                                 .githubId(githubUser.getGithubId())
-                                .totalContributions(githubUser.getTotalContributions())
+                                .contributions(githubUser.getTotalContributions())
                                 .userImage(githubUser.getUserImage())
                                 .bio(githubUser.getBio()).build()
                 ).collect(Collectors.toList());

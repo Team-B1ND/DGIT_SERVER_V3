@@ -1,6 +1,5 @@
 package dodam.b1nd.dgit.domain.user.domain.entity;
 
-import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,9 +19,6 @@ public class User {
 
     @NotNull
     private String name;
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private GithubUser githubUser;
 
     @Builder
     public User(String email, String name) {
