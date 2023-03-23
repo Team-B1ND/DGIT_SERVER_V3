@@ -1,8 +1,8 @@
 package dodam.b1nd.dgit.domain.github.service;
 
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubRankDto;
-import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankDto;
+import dodam.b1nd.dgit.domain.github.domain.repository.GithubUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
