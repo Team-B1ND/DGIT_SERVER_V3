@@ -1,11 +1,12 @@
 package dodam.b1nd.dgit.domain.github.presentation.controller;
 
 import dodam.b1nd.dgit.domain.github.presentation.dto.GithubPullRequestDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubTotalDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.GithubRankDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
 import dodam.b1nd.dgit.domain.github.service.GithubPullRequestService;
 import dodam.b1nd.dgit.domain.github.service.GithubTotalService;
 import dodam.b1nd.dgit.domain.github.service.GithubUserService;
+import dodam.b1nd.dgit.domain.github.service.GithubWeekService;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
@@ -27,6 +28,7 @@ public class GithubController {
     private final GithubUserService githubUserService;
     private final GithubTotalService githubTotalService;
     private final GithubPullRequestService githubPullRequestService;
+    private final GithubWeekService githubWeekService;
 
     @AuthCheck
     @PostMapping("/user")
@@ -39,8 +41,8 @@ public class GithubController {
     }
 
     @GetMapping("/total")
-    public ResponseData<List<GithubTotalDto>> getTotalRank() {
-        List<GithubTotalDto> totalRankList = githubTotalService.getTotalListSort();
+    public ResponseData<List<GithubRankDto>> getTotalRank() {
+        List<GithubRankDto> totalRankList = githubTotalService.getTotalListSort();
         return ResponseData.of(HttpStatus.OK, "Commit 순위 조회 성공", totalRankList);
     }
 
@@ -48,5 +50,11 @@ public class GithubController {
     public ResponseData<List<GithubPullRequestDto>> getPullRequestRank() {
         List<GithubPullRequestDto> pullRequestList = githubPullRequestService.getPullRequestListSort();
         return ResponseData.of(HttpStatus.OK, "Pull-Request 순위 조회 성공", pullRequestList);
+    }
+
+    @GetMapping("/week")
+    public ResponseData<List<GithubRankDto>> getWeekRank() {
+        List<GithubRankDto> weekList = githubWeekService.getWeekListSort();
+        return ResponseData.of(HttpStatus.OK, "Week 순위 조회 성공", weekList);
     }
 }
