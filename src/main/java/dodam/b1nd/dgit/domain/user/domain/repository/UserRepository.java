@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.domain.user.repository;
+package dodam.b1nd.dgit.domain.user.domain.repository;
 
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

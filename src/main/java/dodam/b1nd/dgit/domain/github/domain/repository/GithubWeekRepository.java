@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.domain.github.repository;
+package dodam.b1nd.dgit.domain.github.domain.repository;
 
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
