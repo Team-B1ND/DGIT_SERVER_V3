@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.domain.github.domain.repository;
+package dodam.b1nd.dgit.domain.github.repository;
 
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import org.springframework.data.domain.Sort;

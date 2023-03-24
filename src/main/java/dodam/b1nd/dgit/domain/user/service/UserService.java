@@ -1,7 +1,7 @@
 package dodam.b1nd.dgit.domain.user.service;
 
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.domain.user.domain.repository.UserRepository;
+import dodam.b1nd.dgit.domain.user.repository.UserRepository;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;

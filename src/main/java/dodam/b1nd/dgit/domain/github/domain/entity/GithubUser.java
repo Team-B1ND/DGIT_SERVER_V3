@@ -1,6 +1,5 @@
 package dodam.b1nd.dgit.domain.github.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.lib.jpa.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "tbl_github_user")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -42,4 +42,5 @@ public class GithubUser extends BaseTimeEntity {
         this.userImage = userImage;
         this.bio = bio;
     }
+
 }

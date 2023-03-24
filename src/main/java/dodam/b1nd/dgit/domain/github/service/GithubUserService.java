@@ -4,7 +4,7 @@ import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubUserDto;
-import dodam.b1nd.dgit.domain.github.domain.repository.GithubUserRepository;
+import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;

@@ -3,7 +3,7 @@ package dodam.b1nd.dgit.domain.github.service;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankDto;
-import dodam.b1nd.dgit.domain.github.domain.repository.GithubWeekRepository;
+import dodam.b1nd.dgit.domain.github.repository.GithubWeekRepository;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import github.query.GetUserQuery;
