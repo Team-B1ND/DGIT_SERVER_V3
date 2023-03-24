@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tbl_github_user")
 @Getter
 @Builder
 @AllArgsConstructor

@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tbl_github_week")
 @Getter
 @NoArgsConstructor
 public class GithubWeek {
