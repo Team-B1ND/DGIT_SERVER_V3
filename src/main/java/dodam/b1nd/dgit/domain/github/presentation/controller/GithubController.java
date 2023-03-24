@@ -52,9 +52,10 @@ public class GithubController {
         return ResponseData.of(HttpStatus.OK, "Pull-Request 순위 조회 성공", pullRequestList);
     }
 
+    @AuthCheck
     @PostMapping("/repository")
-    public Response addRepository(@RequestBody @Valid AddGithubRepositoryDto request) {
-        githubRepositoryService.save(request);
+    public Response addRepository(@RequestAttribute User user, @RequestBody @Valid AddGithubRepositoryDto request) {
+        githubRepositoryService.save(user, request);
         return Response.of(HttpStatus.OK, "깃허브 레포지토리 추가 성공");
     }
 
