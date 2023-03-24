@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserInfoDto {
+public class UserDto {
     private String email;
     private String name;
     private String githubId;

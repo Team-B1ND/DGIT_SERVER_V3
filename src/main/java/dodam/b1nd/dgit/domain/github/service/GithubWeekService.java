@@ -68,4 +68,9 @@ public class GithubWeekService {
 
         githubWeek.update(contribute);
     }
+
+    @Transactional
+    public void removeWeek(String githubId) {
+        githubWeekRepository.deleteByGithubUser_GithubId(githubId);
+    }
 }

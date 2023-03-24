@@ -32,12 +32,22 @@ public class GithubController {
 
     @AuthCheck
     @PostMapping("/user")
-    public Response modifyGithubId(
+    public Response createGithubUser(
             final @RequestAttribute User user,
             final @Valid @RequestBody GithubUserDto githubUserDto
     ) {
         githubUserService.save(user, githubUserDto);
         return Response.of(HttpStatus.OK, "깃허브 계정 추가 성공");
+    }
+
+    @AuthCheck
+    @PatchMapping("/user")
+    public Response modifyGithubUser(
+            final @RequestAttribute User user,
+            final @Valid @RequestBody GithubUserDto githubUserDto
+    ) {
+        githubUserService.update(user, githubUserDto);
+        return Response.of(HttpStatus.OK, "깃허브 계정 수정 성공");
     }
 
     @GetMapping("/total")
