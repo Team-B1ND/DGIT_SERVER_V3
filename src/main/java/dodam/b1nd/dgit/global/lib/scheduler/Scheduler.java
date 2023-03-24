@@ -22,7 +22,7 @@ public class Scheduler {
         githubUserService.getGithubUserList().forEach(githubUser -> {
             try {
                 GetUserQuery.User githubData = githubUserService.getData(githubUser.getGithubId()).getData().user();
-                githubUserService.update(githubData);
+                githubUserService.updateInfo(githubData);
                 githubWeekService.update(githubUser, githubData);
             } catch (Exception e) {
                 log.error("fail to process file", e);

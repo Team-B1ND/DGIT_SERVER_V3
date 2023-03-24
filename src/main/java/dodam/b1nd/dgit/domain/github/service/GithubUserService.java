@@ -6,7 +6,7 @@ import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.domain.user.presentation.dto.UserInfoDto;
+import dodam.b1nd.dgit.domain.user.presentation.dto.UserDto;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import dodam.b1nd.dgit.global.lib.apolloclient.ApolloClientUtil;
@@ -71,7 +71,7 @@ public class GithubUserService {
     }
 
     @Transactional
-    public void update(final GetUserQuery.User githubUser) {
+    public void updateInfo(final GetUserQuery.User githubUser) {
         GithubUser user = githubUserRepository.findById(githubUser.login()).get();
         user.update(
                 githubUser.contributionsCollection().contributionCalendar().totalContributions(),
@@ -85,14 +85,21 @@ public class GithubUserService {
         return githubUserRepository.findAll();
     }
 
-    public UserInfoDto existByUser(User user) {
+    public UserDto existByUser(User user) {
+        GithubUser githubUser = githubUserRepository.selectGithubUserByUser(user.getId());
 
-        GithubUser githubUser = githubUserRepository.findByUser_Id(user.getId());
-
-        return UserInfoDto.builder()
+        return UserDto.builder()
                 .email(user.getEmail())
                 .name(user.getName())
                 .githubId(githubUser == null ? null : githubUser.getGithubId())
                 .build();
+    }
+    @Transactional
+    public void update(User user, GithubUserDto githubUserDto) {
+        GithubUser githubUser = githubUserRepository.findByUser_Id(user.getId())
+                .orElseThrow(() -> {throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);});
+
+        githubWeekService.removeWeek(githubUser.getGithubId());
+        save(user, githubUserDto);
     }
 }

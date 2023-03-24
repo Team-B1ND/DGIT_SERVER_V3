@@ -2,7 +2,7 @@ package dodam.b1nd.dgit.domain.user.presentation.controller;
 
 import dodam.b1nd.dgit.domain.github.service.GithubUserService;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.domain.user.presentation.dto.UserInfoDto;
+import dodam.b1nd.dgit.domain.user.presentation.dto.UserDto;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.ResponseData;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,8 +23,8 @@ public class UserController {
 
     @AuthCheck
     @GetMapping("/my")
-    public ResponseData<UserInfoDto> getUser(@RequestAttribute User user) {
-        UserInfoDto userInfo = githubUserService.existByUser(user);
+    public ResponseData<UserDto> getUser(@RequestAttribute User user) {
+        UserDto userInfo = githubUserService.existByUser(user);
         return ResponseData.of(HttpStatus.OK, "자신의 정보 가져오기 성공", userInfo);
     }
 }
