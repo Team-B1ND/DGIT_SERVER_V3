@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tbl_github_repository")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class GithubRepository {
     private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_github_id", nullable = false)
+    @JoinColumn(name = "fk_owner_id", nullable = false)
     private RepositoryOwner repositoryOwner;
 
 }
