@@ -14,6 +14,10 @@ import javax.validation.constraints.NotNull;
 public class GithubRepository {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "repository_id")
+    private Long id;
+
     @NotNull
     private String repositoryName;
 
@@ -24,8 +28,11 @@ public class GithubRepository {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_owner_id", nullable = false)
     private RepositoryOwner repositoryOwner;
 
+    public void update(int totalStars) {
+        this.totalStars = totalStars;
+    }
 }
