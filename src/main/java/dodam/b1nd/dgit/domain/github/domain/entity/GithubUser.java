@@ -41,4 +41,5 @@ public class GithubUser extends BaseTimeEntity {
         this.userImage = userImage;
         this.bio = bio;
     }
+
 }
