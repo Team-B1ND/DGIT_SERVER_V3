@@ -59,7 +59,7 @@ public class GithubWeekService {
     }
 
     @Transactional
-    public void update(GithubUser githubUser, GetUserQuery.User githubData) {
+    public void updateInfo(GithubUser githubUser, GetUserQuery.User githubData) {
 
         int contribute = getContribute(githubData);
 

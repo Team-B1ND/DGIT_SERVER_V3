@@ -14,8 +14,8 @@ public class GithubWeek {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idx", unique = true, nullable = false)
-    private Long idx;
+    @Column(name = "week_id", unique = true, nullable = false)
+    private Long id;
 
     @NotNull
     private int contribute;
