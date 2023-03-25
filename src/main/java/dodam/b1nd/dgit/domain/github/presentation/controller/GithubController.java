@@ -1,12 +1,11 @@
 package dodam.b1nd.dgit.domain.github.presentation.controller;
 
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubPullRequestDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubRankDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.GithubUserDto;
-import dodam.b1nd.dgit.domain.github.service.GithubPullRequestService;
-import dodam.b1nd.dgit.domain.github.service.GithubTotalService;
-import dodam.b1nd.dgit.domain.github.service.GithubUserService;
-import dodam.b1nd.dgit.domain.github.service.GithubWeekService;
+import dodam.b1nd.dgit.domain.github.presentation.dto.request.AddGithubRepositoryDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.request.GithubPullRequestDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRepositoryDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubUserDto;
+import dodam.b1nd.dgit.domain.github.service.*;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
@@ -28,6 +27,7 @@ public class GithubController {
     private final GithubUserService githubUserService;
     private final GithubTotalService githubTotalService;
     private final GithubPullRequestService githubPullRequestService;
+    private final GithubRepositoryService githubRepositoryService;
     private final GithubWeekService githubWeekService;
 
     @AuthCheck
@@ -60,6 +60,19 @@ public class GithubController {
     public ResponseData<List<GithubPullRequestDto>> getPullRequestRank() {
         List<GithubPullRequestDto> pullRequestList = githubPullRequestService.getPullRequestListSort();
         return ResponseData.of(HttpStatus.OK, "Pull-Request 순위 조회 성공", pullRequestList);
+    }
+
+    @AuthCheck
+    @PostMapping("/repository")
+    public Response addRepository(@RequestAttribute User user, @RequestBody @Valid AddGithubRepositoryDto request) {
+        githubRepositoryService.save(user, request);
+        return Response.of(HttpStatus.OK, "깃허브 레포지토리 추가 성공");
+    }
+
+    @GetMapping("/repository")
+    public ResponseData<List<GithubRepositoryDto>> getRepositoryRank() {
+        List<GithubRepositoryDto> repositoryList = githubRepositoryService.getRepositoryListSort();
+        return ResponseData.of(HttpStatus.OK, "Repository 순위 조회 성공", repositoryList);
     }
 
     @GetMapping("/week")
