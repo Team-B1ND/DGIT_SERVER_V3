@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Tag(name = "GithubUser", description = "GithubUser Api")
+@Tag(name = "Github", description = "Github Api")
 @RestController
 @RequestMapping(value = "/github")
 @RequiredArgsConstructor

@@ -1,12 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dgit?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://101.101.209.184:33307/dgitv3?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: hong3622!
-    #password: wlals0330
+    password: b1nd0108!
+#    password: hong3622!
+#    password: wlals0330
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: update
 
