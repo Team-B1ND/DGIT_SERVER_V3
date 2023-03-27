@@ -10,6 +10,7 @@ import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
 import dodam.b1nd.dgit.global.response.ResponseData;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class GithubController {
     private final GithubRepositoryService githubRepositoryService;
     private final GithubWeekService githubWeekService;
 
+    @Operation(description = "User 추가")
     @AuthCheck
     @PostMapping("/user")
     public Response createGithubUser(
@@ -40,28 +42,21 @@ public class GithubController {
         return Response.of(HttpStatus.OK, "깃허브 계정 추가 성공");
     }
 
-    @AuthCheck
-    @PatchMapping("/user")
-    public Response modifyGithubUser(
-            final @RequestAttribute User user,
-            final @Valid @RequestBody GithubUserDto githubUserDto
-    ) {
-        githubUserService.update(user, githubUserDto);
-        return Response.of(HttpStatus.OK, "깃허브 계정 수정 성공");
-    }
-
+    @Operation(description = "Commit 순위 조회")
     @GetMapping("/total")
     public ResponseData<List<GithubRankDto>> getTotalRank() {
         List<GithubRankDto> totalRankList = githubTotalService.getTotalListSort();
         return ResponseData.of(HttpStatus.OK, "Commit 순위 조회 성공", totalRankList);
     }
 
+    @Operation(description = "Pull Request 순위 조회")
     @GetMapping("/pull-request")
     public ResponseData<List<GithubPullRequestDto>> getPullRequestRank() {
         List<GithubPullRequestDto> pullRequestList = githubPullRequestService.getPullRequestListSort();
         return ResponseData.of(HttpStatus.OK, "Pull-Request 순위 조회 성공", pullRequestList);
     }
 
+    @Operation(description = "Repository 추가")
     @AuthCheck
     @PostMapping("/repository")
     public Response addRepository(@RequestAttribute User user, @RequestBody @Valid AddGithubRepositoryDto request) {
@@ -69,12 +64,14 @@ public class GithubController {
         return Response.of(HttpStatus.OK, "깃허브 레포지토리 추가 성공");
     }
 
+    @Operation(description = "Repository Star 순위 조회")
     @GetMapping("/repository")
     public ResponseData<List<GithubRepositoryDto>> getRepositoryRank() {
         List<GithubRepositoryDto> repositoryList = githubRepositoryService.getRepositoryListSort();
         return ResponseData.of(HttpStatus.OK, "Repository 순위 조회 성공", repositoryList);
     }
 
+    @Operation(description = "Weekly Commit 순위 조회")
     @GetMapping("/week")
     public ResponseData<List<GithubRankDto>> getWeekRank() {
         List<GithubRankDto> weekList = githubWeekService.getWeekListSort();
