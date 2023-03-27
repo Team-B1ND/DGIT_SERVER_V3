@@ -7,7 +7,6 @@ import dodam.b1nd.dgit.domain.github.domain.entity.RepositoryOwner;
 import dodam.b1nd.dgit.domain.github.presentation.dto.request.AddGithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubRepositoryRepository;
-import dodam.b1nd.dgit.domain.github.repository.RepositoryOwnerRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
@@ -24,11 +23,10 @@ import java.util.List;
 public class GithubRepositoryService {
 
     private final ApolloClient apolloClient;
-    private final RepositoryOwnerRepository repositoryOwnerRepository;
     private final GithubRepositoryRepository githubRepositoryRepository;
 
-    private Response<GetRepositoryQuery.Data> getData(AddGithubRepositoryDto request) {
-        Response<GetRepositoryQuery.Data> responseData = getResponseData(request);
+    public Response<GetRepositoryQuery.Data> getData(String githubId, String repositoryName) {
+        Response<GetRepositoryQuery.Data> responseData = getResponseData(githubId, repositoryName);
 
         if (responseData.getData().repository() == null) {
             throw CustomError.of(ErrorCode.GITHUB_REPOSITORY_NOT_FOUND);
@@ -37,12 +35,12 @@ public class GithubRepositoryService {
         return responseData;
     }
 
-    private Response<GetRepositoryQuery.Data> getResponseData(AddGithubRepositoryDto request) {
+    private Response<GetRepositoryQuery.Data> getResponseData(String githubId, String repositoryName) {
         return ApolloClientUtil.toCompletableFuture(apolloClient.query(
                         GetRepositoryQuery
                                 .builder()
-                                .name(request.getRepositoryName())
-                                .owner(request.getGithubId())
+                                .name(repositoryName)
+                                .owner(githubId)
                                 .build()
                 )
         ).join();
@@ -50,18 +48,16 @@ public class GithubRepositoryService {
 
     @Transactional(rollbackFor = Exception.class)
     public GithubRepository save(final User user, final AddGithubRepositoryDto request) {
-        GetRepositoryQuery.Data data = getData(request).getData();
-
-        RepositoryOwner repositoryOwner = repositoryOwnerRepository.save(RepositoryOwner.builder()
-                .githubId(request.getGithubId())
-                .githubImage(data.repository().owner().avatarUrl().toString())
-                .build());
+        GetRepositoryQuery.Data data = getData(request.getGithubId(), request.getRepositoryName()).getData();
 
         return githubRepositoryRepository.save(GithubRepository.builder()
                 .repositoryName(request.getRepositoryName())
                 .totalStars(data.repository().stargazerCount())
                 .user(user)
-                .repositoryOwner(repositoryOwner)
+                .repositoryOwner(RepositoryOwner.builder()
+                        .githubId(request.getGithubId())
+                        .githubImage(data.repository().owner().avatarUrl().toString())
+                        .build())
                 .build());
     }
 
@@ -76,10 +72,19 @@ public class GithubRepositoryService {
         return GithubRepositoryDto.builder()
                 .repositoryName(githubRepository.getRepositoryName())
                 .totalStars(githubRepository.getTotalStars())
-                .userName(githubRepository.getUser().getName())
                 .githubId(githubRepository.getRepositoryOwner().getGithubId())
                 .githubUserImage(githubRepository.getRepositoryOwner().getGithubImage())
                 .build();
     }
 
+    @Transactional(readOnly = true)
+    public List<GithubRepository> getRepositoryList() {
+        return githubRepositoryRepository.findAll();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateInfo(GithubRepository githubRepository, GetRepositoryQuery.Repository repository) {
+        githubRepositoryRepository.findById(githubRepository.getId()).get()
+                .update(repository.stargazerCount());
+    }
 }

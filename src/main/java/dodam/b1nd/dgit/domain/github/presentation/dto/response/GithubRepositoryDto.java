@@ -9,7 +9,6 @@ public class GithubRepositoryDto {
 
     private String repositoryName;
     private int totalStars;
-    private String userName;
     private String githubId;
     private String githubUserImage;
 

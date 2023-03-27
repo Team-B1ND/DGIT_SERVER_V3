@@ -31,10 +31,10 @@ public class GithubController {
     private final GithubRepositoryService githubRepositoryService;
     private final GithubWeekService githubWeekService;
 
-    @Operation(description = "User 추가 및 수정")
+    @Operation(description = "User 추가")
     @AuthCheck
     @PostMapping("/user")
-    public Response modifyGithubId(
+    public Response createGithubUser(
             final @RequestAttribute User user,
             final @Valid @RequestBody GithubUserDto githubUserDto
     ) {

@@ -59,7 +59,7 @@ public class GithubWeekService {
     }
 
     @Transactional
-    public void update(GithubUser githubUser, GetUserQuery.User githubData) {
+    public void updateInfo(GithubUser githubUser, GetUserQuery.User githubData) {
 
         int contribute = getContribute(githubData);
 
@@ -67,5 +67,10 @@ public class GithubWeekService {
                 .orElseThrow(() -> {throw CustomError.of(ErrorCode.WEEK_NOT_FOUND);});
 
         githubWeek.update(contribute);
+    }
+
+    @Transactional
+    public void removeWeek(String githubId) {
+        githubWeekRepository.deleteByGithubUser_GithubId(githubId);
     }
 }
