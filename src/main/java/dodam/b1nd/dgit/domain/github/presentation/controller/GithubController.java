@@ -31,7 +31,7 @@ public class GithubController {
     private final GithubRepositoryService githubRepositoryService;
     private final GithubWeekService githubWeekService;
 
-    @Operation(description = "User 추가")
+    @Operation(description = "Github 계정 추가")
     @AuthCheck
     @PostMapping("/user")
     public Response createGithubUser(
@@ -40,6 +40,17 @@ public class GithubController {
     ) {
         githubUserService.save(user, githubUserDto);
         return Response.of(HttpStatus.OK, "깃허브 계정 추가 성공");
+    }
+
+    @Operation(description = "Github 계정 수정")
+    @AuthCheck
+    @PatchMapping("/user")
+    public Response modifyGithubUser(
+            final @RequestAttribute User user,
+            final @Valid @RequestBody GithubUserDto githubUserDto
+    ) {
+        githubUserService.update(user, githubUserDto);
+        return Response.of(HttpStatus.OK, "깃허브 계정 수정 성공");
     }
 
     @Operation(description = "Commit 순위 조회")
