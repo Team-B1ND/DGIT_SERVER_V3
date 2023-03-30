@@ -42,6 +42,16 @@ public class GithubController {
         return Response.of(HttpStatus.OK, "깃허브 계정 추가 성공");
     }
 
+    @AuthCheck
+    @PatchMapping("/user")
+    public Response modifyGithubUser(
+            final @RequestAttribute User user,
+            final @Valid @RequestBody GithubUserDto githubUserDto
+    ) {
+        githubUserService.update(user, githubUserDto);
+        return Response.of(HttpStatus.OK, "깃허브 계정 수정 성공");
+    }
+
     @Operation(description = "Commit 순위 조회")
     @GetMapping("/total")
     public ResponseData<List<GithubRankDto>> getTotalRank() {
