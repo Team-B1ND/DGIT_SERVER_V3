@@ -67,7 +67,7 @@ public class GithubUserService {
 
     private void existUser(final String githubId) {
         githubUserRepository.findById(githubId)
-                .ifPresent(githubUser -> CustomError.of(ErrorCode.GITHUB_USER_EXIST));
+                .ifPresent(githubUser -> { throw CustomError.of(ErrorCode.GITHUB_USER_EXIST);});
     }
 
     @Transactional
