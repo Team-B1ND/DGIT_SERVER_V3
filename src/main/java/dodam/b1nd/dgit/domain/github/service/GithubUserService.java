@@ -91,6 +91,7 @@ public class GithubUserService {
         return UserDto.builder()
                 .email(user.getEmail())
                 .name(user.getName())
+                .userImage(githubUser == null ? null : githubUser.getUserImage())
                 .githubId(githubUser == null ? null : githubUser.getGithubId())
                 .build();
     }
