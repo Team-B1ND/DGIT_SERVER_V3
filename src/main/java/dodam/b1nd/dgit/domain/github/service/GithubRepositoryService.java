@@ -3,7 +3,6 @@ package dodam.b1nd.dgit.domain.github.service;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubRepository;
-import dodam.b1nd.dgit.domain.github.domain.entity.RepositoryOwner;
 import dodam.b1nd.dgit.domain.github.presentation.dto.request.AddGithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubRepositoryRepository;
@@ -25,6 +24,7 @@ public class GithubRepositoryService {
 
     private final ApolloClient apolloClient;
     private final GithubRepositoryRepository githubRepositoryRepository;
+    private final RepositoryOwnerService ownerService;
 
     public Response<GetRepositoryQuery.Data> getData(String githubId, String repositoryName) {
         Response<GetRepositoryQuery.Data> responseData = getResponseData(githubId, repositoryName);
@@ -55,10 +55,9 @@ public class GithubRepositoryService {
                 .repositoryName(request.getRepositoryName())
                 .totalStars(data.repository().stargazerCount())
                 .user(user)
-                .repositoryOwner(RepositoryOwner.builder()
-                        .githubId(request.getGithubId())
-                        .githubImage(data.repository().owner().avatarUrl().toString())
-                        .build())
+                .repositoryOwner(ownerService.existOwner(
+                        request.getGithubId(),
+                        data.repository().owner().avatarUrl().toString()))
                 .build());
     }
 
