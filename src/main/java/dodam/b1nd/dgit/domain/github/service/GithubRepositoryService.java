@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,7 +66,7 @@ public class GithubRepositoryService {
     public List<GithubRepositoryDto> getRepositoryListSort() {
         return githubRepositoryRepository.findAllByOrderByTotalStarsDesc().stream()
                 .map(this::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private GithubRepositoryDto toDto(GithubRepository githubRepository) {
