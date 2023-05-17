@@ -10,4 +10,5 @@ public class UserDto {
     private String email;
     private String name;
     private String githubId;
+    private String userImage;
 }
