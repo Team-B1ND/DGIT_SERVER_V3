@@ -21,4 +21,6 @@ public interface GithubUserRepository extends JpaRepository<GithubUser, String> 
     GithubUser selectGithubUserByUser(Long userId);
 
     Optional<GithubUser> findByUser_Id(Long userId);
+
+    List<GithubUser> findByGithubIdOrUser_Id(String githubId, Long userId);
 }

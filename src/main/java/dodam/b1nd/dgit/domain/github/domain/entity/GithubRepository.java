@@ -28,7 +28,7 @@ public class GithubRepository {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_owner_id", nullable = false)
     private RepositoryOwner repositoryOwner;
 

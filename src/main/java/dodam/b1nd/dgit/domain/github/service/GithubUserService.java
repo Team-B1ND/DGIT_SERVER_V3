@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +31,7 @@ public class GithubUserService {
 
     @Transactional
     public void save(User user, GithubUserDto githubUserDto) {
-        existUser(githubUserDto.getGithubId());
+        existUser(githubUserDto.getGithubId(), user.getId());
         GetUserQuery.Data data = getData(githubUserDto.getGithubId()).getData();
 
         GithubUser githubUser = githubUserRepository.save(githubUserResponseToEntity(user, data.user()));
@@ -65,9 +66,13 @@ public class GithubUserService {
                 .build();
     }
 
-    private void existUser(final String githubId) {
-        githubUserRepository.findById(githubId)
-                .ifPresent(githubUser -> CustomError.of(ErrorCode.GITHUB_USER_EXIST));
+    private void existUser(final String githubId, final Long userId) {
+        try {
+            Optional.ofNullable(githubUserRepository.findByGithubIdOrUser_Id(githubId, userId).get(0))
+                    .ifPresent(githubUser -> { throw CustomError.of(ErrorCode.GITHUB_USER_EXIST); });
+        } catch (IndexOutOfBoundsException e) {
+            e.getMessage();
+        }
     }
 
     @Transactional
@@ -91,6 +96,7 @@ public class GithubUserService {
         return UserDto.builder()
                 .email(user.getEmail())
                 .name(user.getName())
+                .userImage(githubUser == null ? null : githubUser.getUserImage())
                 .githubId(githubUser == null ? null : githubUser.getGithubId())
                 .build();
     }
