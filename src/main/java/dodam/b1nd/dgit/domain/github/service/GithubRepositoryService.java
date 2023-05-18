@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static dodam.b1nd.dgit.global.error.ErrorCode.GITHUB_REPOSITORY_EXIST;
+
 @Service
 @RequiredArgsConstructor
 public class GithubRepositoryService {
@@ -36,28 +38,20 @@ public class GithubRepositoryService {
         return responseData;
     }
 
-    private Response<GetRepositoryQuery.Data> getResponseData(String githubId, String repositoryName) {
-        return ApolloClientUtil.toCompletableFuture(apolloClient.query(
-                        GetRepositoryQuery
-                                .builder()
-                                .name(repositoryName)
-                                .owner(githubId)
-                                .build()
-                )
-        ).join();
-    }
-
     @Transactional(rollbackFor = Exception.class)
-    public GithubRepository save(final User user, final AddGithubRepositoryDto request) {
+    public GithubRepository create(final User user, final AddGithubRepositoryDto request) {
         GetRepositoryQuery.Data data = getData(request.getGithubId(), request.getRepositoryName()).getData();
+
+        if(isExist(request.getRepositoryName())) {
+            throw new CustomError(GITHUB_REPOSITORY_EXIST);
+        }
 
         return githubRepositoryRepository.save(GithubRepository.builder()
                 .repositoryName(request.getRepositoryName())
                 .totalStars(data.repository().stargazerCount())
                 .user(user)
                 .repositoryOwner(ownerService.existOwner(
-                        request.getGithubId(),
-                        data.repository().owner().avatarUrl().toString()))
+                        request.getGithubId(), data.repository().owner().avatarUrl().toString()))
                 .build());
     }
 
@@ -66,15 +60,6 @@ public class GithubRepositoryService {
         return githubRepositoryRepository.findAllByOrderByTotalStarsDesc().stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
-    }
-
-    private GithubRepositoryDto toDto(GithubRepository githubRepository) {
-        return GithubRepositoryDto.builder()
-                .repositoryName(githubRepository.getRepositoryName())
-                .totalStars(githubRepository.getTotalStars())
-                .githubId(githubRepository.getRepositoryOwner().getGithubId())
-                .githubUserImage(githubRepository.getRepositoryOwner().getGithubImage())
-                .build();
     }
 
     @Transactional(readOnly = true)
@@ -87,4 +72,29 @@ public class GithubRepositoryService {
         githubRepositoryRepository.findById(githubRepository.getId()).get()
                 .update(repository.stargazerCount());
     }
+
+    protected boolean isExist(final String repositoryName) {
+        return githubRepositoryRepository.existsByRepositoryName(repositoryName);
+    }
+
+    private Response<GetRepositoryQuery.Data> getResponseData(String githubId, String repositoryName) {
+        return ApolloClientUtil.toCompletableFuture(apolloClient.query(
+                        GetRepositoryQuery
+                                .builder()
+                                .name(repositoryName)
+                                .owner(githubId)
+                                .build()
+                )
+        ).join();
+    }
+
+    private GithubRepositoryDto toDto(GithubRepository githubRepository) {
+        return GithubRepositoryDto.builder()
+                .repositoryName(githubRepository.getRepositoryName())
+                .totalStars(githubRepository.getTotalStars())
+                .githubId(githubRepository.getRepositoryOwner().getGithubId())
+                .githubUserImage(githubRepository.getRepositoryOwner().getGithubImage())
+                .build();
+    }
+
 }
