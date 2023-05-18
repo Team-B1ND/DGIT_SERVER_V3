@@ -67,8 +67,12 @@ public class GithubUserService {
     }
 
     private void existUser(final String githubId, final Long userId) {
-        Optional.ofNullable(githubUserRepository.findByGithubIdOrUser_Id(githubId, userId).get(0))
-                .ifPresent(githubUser -> { throw CustomError.of(ErrorCode.GITHUB_USER_EXIST); });
+        try {
+            Optional.ofNullable(githubUserRepository.findByGithubIdOrUser_Id(githubId, userId).get(0))
+                    .ifPresent(githubUser -> { throw CustomError.of(ErrorCode.GITHUB_USER_EXIST); });
+        } catch (IndexOutOfBoundsException e) {
+            e.getMessage();
+        }
     }
 
     @Transactional
