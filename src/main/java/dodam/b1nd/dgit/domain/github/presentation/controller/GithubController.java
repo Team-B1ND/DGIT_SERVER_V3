@@ -71,7 +71,7 @@ public class GithubController {
     @AuthCheck
     @PostMapping("/repository")
     public Response addRepository(@RequestAttribute User user, @RequestBody @Valid AddGithubRepositoryDto request) {
-        githubRepositoryService.save(user, request);
+        githubRepositoryService.create(user, request);
         return Response.of(HttpStatus.OK, "깃허브 레포지토리 추가 성공");
     }
 

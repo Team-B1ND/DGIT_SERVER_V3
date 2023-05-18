@@ -14,4 +14,7 @@ public interface GithubRepositoryRepository extends JpaRepository<GithubReposito
 
     @EntityGraph(attributePaths = "repositoryOwner")
     List<GithubRepository> findAll();
+
+    Boolean existsByRepositoryName(String repositoryName);
+
 }

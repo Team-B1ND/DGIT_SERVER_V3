@@ -11,6 +11,7 @@ public enum ErrorCode {
     WEEK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Week"),
     GITHUB_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Github 유저"),
     GITHUB_REPOSITORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Github 레포지토리"),
+    GITHUB_REPOSITORY_EXIST(HttpStatus.CONFLICT, "이미 존재하는 Github 레포지토리"),
     GITHUB_USER_EXIST(HttpStatus.CONFLICT, "이미 존재하는 Github 유저"),
     INVALID_TOKEN(HttpStatus.FORBIDDEN, "유효하지 않은 토큰"),
     TOKEN_NOT_PROVIDED(HttpStatus.BAD_REQUEST, "토큰이 입력되지 않았습니다"),
