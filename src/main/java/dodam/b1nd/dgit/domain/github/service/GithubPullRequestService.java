@@ -25,6 +25,7 @@ public class GithubPullRequestService {
                 .map(githubUser ->
                         GithubPullRequestDto.builder()
                                 .githubId(githubUser.getGithubId())
+                                .name(githubUser.getUser().getName())
                                 .pullRequest(githubUser.getPullRequest())
                                 .userImage(githubUser.getUserImage())
                                 .bio(githubUser.getBio()).build()

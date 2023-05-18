@@ -50,6 +50,7 @@ public class GithubWeekService {
                 .map(githubWeek ->
                         GithubRankDto.builder()
                                 .githubId(githubWeek.getGithubUser().getGithubId())
+                                .name(githubWeek.getGithubUser().getUser().getName())
                                 .contributions(githubWeek.getContribute())
                                 .userImage(githubWeek.getGithubUser().getUserImage())
                                 .bio(githubWeek.getGithubUser().getBio()).build()
