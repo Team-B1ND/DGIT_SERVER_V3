@@ -1,8 +1,10 @@
 package dodam.b1nd.dgit.global.lib.scheduler;
 
+import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.service.GithubRepositoryService;
 import dodam.b1nd.dgit.domain.github.service.GithubUserService;
 import dodam.b1nd.dgit.domain.github.service.GithubWeekService;
+import dodam.b1nd.dgit.domain.github.service.WeekRankService;
 import github.query.GetRepositoryQuery;
 import github.query.GetUserQuery;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class Scheduler {
     private final GithubUserService githubUserService;
     private final GithubWeekService githubWeekService;
     private final GithubRepositoryService githubRepositoryService;
+    private final WeekRankService weekRankService;
 
     @Scheduled(cron = "0 0 8,10,12,14,16,18,20,23 * * *")
     public void userSchedule() {
@@ -45,5 +48,12 @@ public class Scheduler {
                 log.error("fail to process file", e);
             }
         });
+    }
+
+//    @Scheduled(cron = "0 55 23 ? * 7")
+    @Scheduled(cron = "0 55 23 ? * *")
+    public void weekRankRecordSchedule() {
+        GithubWeek week1st = githubWeekService.getWeek1st();
+        weekRankService.saveRank(week1st);
     }
 }

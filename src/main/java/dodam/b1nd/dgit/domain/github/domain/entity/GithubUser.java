@@ -35,6 +35,9 @@ public class GithubUser extends BaseTimeEntity {
 
     private String bio;
 
+    @NotNull
+    private int winCount;
+
     public void update(int totalContributions, int pullRequest, String userImage, String bio) {
         this.totalContributions = totalContributions;
         this.pullRequest = pullRequest;
@@ -42,4 +45,7 @@ public class GithubUser extends BaseTimeEntity {
         this.bio = bio;
     }
 
+    public void plusWindCount() {
+        this.winCount += 1;
+    }
 }
