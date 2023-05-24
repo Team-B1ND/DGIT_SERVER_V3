@@ -23,4 +23,7 @@ public interface GithubUserRepository extends JpaRepository<GithubUser, String> 
     Optional<GithubUser> findByUser_Id(Long userId);
 
     List<GithubUser> findByGithubIdOrUser_Id(String githubId, Long userId);
+
+    @EntityGraph(attributePaths = "user")
+    List<GithubUser> findTop3ByOrderByWinCountDesc();
 }

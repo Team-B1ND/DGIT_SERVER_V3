@@ -18,4 +18,7 @@ public interface GithubWeekRepository extends JpaRepository<GithubWeek, Long> {
     List<GithubWeek> findAll(Sort sort);
 
     void deleteByGithubUser_GithubId(String githubId);
+
+    @EntityGraph(attributePaths = {"githubUser", "githubUser.user"})
+    Optional<GithubWeek> findTopByOrderByContributeDesc();
 }

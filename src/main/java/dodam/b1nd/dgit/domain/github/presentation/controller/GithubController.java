@@ -2,10 +2,7 @@ package dodam.b1nd.dgit.domain.github.presentation.controller;
 
 import dodam.b1nd.dgit.domain.github.presentation.dto.request.AddGithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.request.GithubPullRequestDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankRecordDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRepositoryDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubUserDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.*;
 import dodam.b1nd.dgit.domain.github.service.*;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
@@ -91,7 +88,7 @@ public class GithubController {
         return ResponseData.of(HttpStatus.OK, "Week 순위 조회 성공", weekList);
     }
 
-    @Operation(description = "Repository Star 순위 조회")
+    @Operation(description = "역대 Week 랭킹 조회")
     @GetMapping("/week/rank")
     public ResponseData<List<GithubRankRecordDto>> getRankRecord(
             @RequestParam(name = "page") int page,
@@ -99,5 +96,12 @@ public class GithubController {
     ) {
         List<GithubRankRecordDto> rankRecordList = weekRankService.getRankRecord(page, limit);
         return ResponseData.of(HttpStatus.OK, "역대 랭킹 조회 성공", rankRecordList);
+    }
+
+    @Operation(description = "Week 랭킹 TOP3 조회")
+    @GetMapping("/week/top3")
+    public ResponseData<List<GithubTop3Dto>> getRankTop3() {
+        List<GithubTop3Dto> rankTop3 = weekRankService.getRankTop3();
+        return ResponseData.of(HttpStatus.OK, "Week 랭킹 TOP3 조회 성공", rankTop3);
     }
 }
