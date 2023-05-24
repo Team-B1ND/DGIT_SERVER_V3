@@ -63,6 +63,7 @@ public class GithubUserService {
                 .pullRequest(githubUser.pullRequests().totalCount())
                 .userImage(githubUser.avatarUrl().toString())
                 .bio(githubUser.bio())
+                .winCount(0)
                 .build();
     }
 

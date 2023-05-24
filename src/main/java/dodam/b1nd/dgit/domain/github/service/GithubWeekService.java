@@ -59,6 +59,14 @@ public class GithubWeekService {
         return result;
     }
 
+    public GithubWeek getWeek1st() {
+        try {
+            return githubWeekRepository.findAll(Sort.by(Sort.Direction.DESC, "contribute")).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            throw CustomError.of(ErrorCode.INTERNAL_SERVER);
+        }
+    }
+
     @Transactional
     public void updateInfo(GithubUser githubUser, GetUserQuery.User githubData) {
 

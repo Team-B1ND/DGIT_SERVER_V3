@@ -3,6 +3,7 @@ package dodam.b1nd.dgit.domain.github.presentation.controller;
 import dodam.b1nd.dgit.domain.github.presentation.dto.request.AddGithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.request.GithubPullRequestDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankDto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankRecordDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubUserDto;
 import dodam.b1nd.dgit.domain.github.service.*;
@@ -30,6 +31,7 @@ public class GithubController {
     private final GithubPullRequestService githubPullRequestService;
     private final GithubRepositoryService githubRepositoryService;
     private final GithubWeekService githubWeekService;
+    private final WeekRankService weekRankService;
 
     @Operation(description = "Github 계정 추가")
     @AuthCheck
@@ -87,5 +89,15 @@ public class GithubController {
     public ResponseData<List<GithubRankDto>> getWeekRank() {
         List<GithubRankDto> weekList = githubWeekService.getWeekListSort();
         return ResponseData.of(HttpStatus.OK, "Week 순위 조회 성공", weekList);
+    }
+
+    @Operation(description = "Repository Star 순위 조회")
+    @GetMapping("/week/rank")
+    public ResponseData<List<GithubRankRecordDto>> getRankRecord(
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "limit") int limit
+    ) {
+        List<GithubRankRecordDto> rankRecordList = weekRankService.getRankRecord(page, limit);
+        return ResponseData.of(HttpStatus.OK, "역대 랭킹 조회 성공", rankRecordList);
     }
 }
