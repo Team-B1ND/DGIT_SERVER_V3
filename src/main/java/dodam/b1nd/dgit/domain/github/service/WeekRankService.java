@@ -35,7 +35,7 @@ public class WeekRankService {
                         .rankedDate(weekRank.getRankedDate())
                         .githubId(weekRank.getGithubUser().getGithubId())
                         .name(weekRank.getGithubUser().getUser().getName())
-                        .userImage(weekRank.getGithubUser().getUser().getName())
+                        .userImage(weekRank.getGithubUser().getUserImage())
                         .bio(weekRank.getGithubUser().getBio())
                         .build()
         ).collect(Collectors.toList());
