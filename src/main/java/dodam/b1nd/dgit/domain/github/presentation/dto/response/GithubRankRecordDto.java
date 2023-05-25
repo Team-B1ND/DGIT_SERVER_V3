@@ -12,6 +12,7 @@ public class GithubRankRecordDto {
     private LocalDate rankedDate;
     private String githubId;
     private String name;
+    private int contributions;
     private String userImage;
     private String bio;
 }

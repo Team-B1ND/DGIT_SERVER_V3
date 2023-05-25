@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GithubTop3Dto {
+public class GithubTopDto {
     private String githubId;
     private String name;
     private int winCount;

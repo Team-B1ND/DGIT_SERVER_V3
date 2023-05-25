@@ -99,9 +99,9 @@ public class GithubController {
     }
 
     @Operation(description = "Week 랭킹 TOP3 조회")
-    @GetMapping("/week/top3")
-    public ResponseData<List<GithubTop3Dto>> getRankTop3() {
-        List<GithubTop3Dto> rankTop3 = weekRankService.getRankTop3();
-        return ResponseData.of(HttpStatus.OK, "Week 랭킹 TOP3 조회 성공", rankTop3);
+    @GetMapping("/week/top")
+    public ResponseData<List<GithubTopDto>> getRankTop3() {
+        List<GithubTopDto> rankTop = weekRankService.getRankTop();
+        return ResponseData.of(HttpStatus.OK, "Week 랭킹 TOP3 조회 성공", rankTop);
     }
 }
