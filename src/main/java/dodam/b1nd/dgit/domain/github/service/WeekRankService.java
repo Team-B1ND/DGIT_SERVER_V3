@@ -4,7 +4,7 @@ import dodam.b1nd.dgit.domain.github.domain.entity.GithubUser;
 import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.domain.entity.WeekRank;
 import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubRankRecordDto;
-import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubTop3Dto;
+import dodam.b1nd.dgit.domain.github.presentation.dto.response.GithubTopDto;
 import dodam.b1nd.dgit.domain.github.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.github.repository.WeekRankRepository;
 import dodam.b1nd.dgit.global.error.CustomError;
@@ -34,6 +34,7 @@ public class WeekRankService {
                 GithubRankRecordDto.builder()
                         .rankedDate(weekRank.getRankedDate())
                         .githubId(weekRank.getGithubUser().getGithubId())
+                        .contributions(weekRank.getContribute())
                         .name(weekRank.getGithubUser().getUser().getName())
                         .userImage(weekRank.getGithubUser().getUserImage())
                         .bio(weekRank.getGithubUser().getBio())
@@ -66,9 +67,9 @@ public class WeekRankService {
                 });
     }
 
-    public List<GithubTop3Dto> getRankTop3() {
+    public List<GithubTopDto> getRankTop() {
         return githubUserRepository.findTop3ByOrderByWinCountDesc().stream().map(githubUser ->
-            GithubTop3Dto.builder()
+            GithubTopDto.builder()
                     .githubId(githubUser.getGithubId())
                     .name(githubUser.getUser().getName())
                     .winCount(githubUser.getWinCount())
