@@ -19,6 +19,8 @@ app:
     client-secret: 20b1d31d09214af790271a604c7070491e26a6d443d74af1b9d66c0b013fb160
   github:
     token: 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
+  admin:
+    pw: bind7th
 
 logging:
   level:
