@@ -141,6 +141,7 @@ public class GithubUserService {
         GithubUser githubUser = githubUserRepository.findById(githubUserIdDto.getGithubId()).orElseThrow(() -> {
             throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);
         });
+        githubWeekService.removeWeek(githubUser.getGithubId());
         githubUserRepository.deleteById(githubUser.getGithubId());
     }
 }
