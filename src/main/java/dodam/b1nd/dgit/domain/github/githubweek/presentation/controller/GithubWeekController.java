@@ -27,14 +27,14 @@ public class GithubWeekController {
     private final WeekRankService weekRankService;
 
     @Operation(description = "Weekly Commit 순위 조회")
-    @GetMapping("/week")
+    @GetMapping
     public ResponseData<List<GithubRankDto>> getWeekRank() {
         List<GithubRankDto> weekList = githubWeekService.getWeekListSort();
         return ResponseData.of(HttpStatus.OK, "Week 순위 조회 성공", weekList);
     }
 
     @Operation(description = "역대 Week 랭킹 조회")
-    @GetMapping("/week/rank")
+    @GetMapping("/rank")
     public ResponseData<List<GithubRankRecordDto>> getRankRecord(
             @RequestParam(name = "page") int page,
             @RequestParam(name = "limit") int limit
@@ -44,7 +44,7 @@ public class GithubWeekController {
     }
 
     @Operation(description = "Week 랭킹 TOP3 조회")
-    @GetMapping("/week/top")
+    @GetMapping("/top")
     public ResponseData<List<GithubTopDto>> getRankTop3() {
         List<GithubTopDto> rankTop = weekRankService.getRankTop();
         return ResponseData.of(HttpStatus.OK, "Week 랭킹 TOP3 조회 성공", rankTop);
