@@ -1,7 +1,7 @@
 package dodam.b1nd.dgit.domain.auth.service;
 
-import dodam.b1nd.dgit.domain.auth.presentation.dto.LoginDto;
-import dodam.b1nd.dgit.domain.auth.presentation.dto.TokenDto;
+import dodam.b1nd.dgit.domain.auth.presentation.dto.request.LoginDto;
+import dodam.b1nd.dgit.domain.auth.presentation.dto.response.TokenDto;
 import dodam.b1nd.dgit.domain.auth.presentation.dto.api.UserInfoDto;
 import dodam.b1nd.dgit.domain.token.service.TokenService;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;

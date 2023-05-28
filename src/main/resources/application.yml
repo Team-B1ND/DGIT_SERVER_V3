@@ -7,7 +7,7 @@ spring:
 #    password: hong3622!
 #    password: wlals0330
   jpa:
-#    show-sql: true
+    show-sql: true
     hibernate:
       ddl-auto: update
 
@@ -25,3 +25,4 @@ app:
 logging:
   level:
     org.springframework.boot.autoconfigure: ERROR
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

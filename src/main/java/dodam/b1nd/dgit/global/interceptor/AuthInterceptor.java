@@ -1,5 +1,6 @@
 package dodam.b1nd.dgit.global.interceptor;
 
+import dodam.b1nd.dgit.domain.user.domain.entity.Admin;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.lib.jwt.JwtType;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -35,8 +37,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         try {
             String token = getTokenOfRequest(request).split(" ")[1];
-            User user = jwtUtil.getUserByToken(token);
 
+            Optional<Admin> adminByToken = jwtUtil.getAdminByToken(token);
+            if (adminByToken.isPresent()) {
+                request.setAttribute("admin", adminByToken.get());
+                return true;
+            }
+
+            User user = jwtUtil.getUserByToken(token);
             request.setAttribute("user", user);
 
         } catch (Exception e) {
