@@ -1,10 +1,10 @@
 package dodam.b1nd.dgit.global.lib.scheduler;
 
-import dodam.b1nd.dgit.domain.github.domain.entity.GithubWeek;
-import dodam.b1nd.dgit.domain.github.service.GithubRepositoryService;
-import dodam.b1nd.dgit.domain.github.service.GithubUserService;
-import dodam.b1nd.dgit.domain.github.service.GithubWeekService;
-import dodam.b1nd.dgit.domain.github.service.WeekRankService;
+import dodam.b1nd.dgit.domain.github.githubweek.domain.entity.GithubWeek;
+import dodam.b1nd.dgit.domain.github.githubrepository.service.GithubRepositoryService;
+import dodam.b1nd.dgit.domain.github.githubuser.service.GithubUserService;
+import dodam.b1nd.dgit.domain.github.githubweek.service.GithubWeekService;
+import dodam.b1nd.dgit.domain.github.githubweek.service.WeekRankService;
 import github.query.GetRepositoryQuery;
 import github.query.GetUserQuery;
 import lombok.RequiredArgsConstructor;
