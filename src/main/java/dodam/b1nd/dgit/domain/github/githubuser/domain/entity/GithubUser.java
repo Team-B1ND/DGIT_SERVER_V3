@@ -1,5 +1,6 @@
 package dodam.b1nd.dgit.domain.github.githubuser.domain.entity;
 
+import dodam.b1nd.dgit.domain.github.githubuser.domain.enums.AuthStatus;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.lib.jpa.BaseTimeEntity;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,10 @@ public class GithubUser extends BaseTimeEntity {
     @NotNull
     private int winCount;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthStatus authStatus;
+
     public void update(int totalContributions, int pullRequest, String userImage, String bio) {
         this.totalContributions = totalContributions;
         this.pullRequest = pullRequest;
@@ -47,5 +52,9 @@ public class GithubUser extends BaseTimeEntity {
 
     public void plusWindCount() {
         this.winCount += 1;
+    }
+
+    public void changeAuthStatus(AuthStatus authStatus) {
+        this.authStatus = authStatus;
     }
 }

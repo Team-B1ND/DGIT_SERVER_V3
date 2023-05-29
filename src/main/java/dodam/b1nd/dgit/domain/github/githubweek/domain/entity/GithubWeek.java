@@ -21,7 +21,7 @@ public class GithubWeek {
     @NotNull
     private int contribute;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_github_id", nullable = false)
     private GithubUser githubUser;
 

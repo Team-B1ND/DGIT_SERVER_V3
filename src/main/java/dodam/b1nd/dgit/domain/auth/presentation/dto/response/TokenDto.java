@@ -1,4 +1,4 @@
-package dodam.b1nd.dgit.domain.auth.presentation.dto;
+package dodam.b1nd.dgit.domain.auth.presentation.dto.response;
 
 import lombok.*;
 

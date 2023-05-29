@@ -3,7 +3,9 @@ package dodam.b1nd.dgit.domain.github.githubuser.service;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import dodam.b1nd.dgit.domain.github.githubuser.domain.entity.GithubUser;
-import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.request.GithubUserDto;
+import dodam.b1nd.dgit.domain.github.githubuser.domain.enums.AuthStatus;
+import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.request.GithubUserIdDto;
+import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.response.GithubUserDto;
 import dodam.b1nd.dgit.domain.github.githubuser.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.github.githubweek.service.GithubWeekService;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,9 +34,9 @@ public class GithubUserService {
     private final GithubUserRepository githubUserRepository;
 
     @Transactional
-    public void save(User user, GithubUserDto githubUserDto) {
-        existUser(githubUserDto.getGithubId(), user.getId());
-        GetUserQuery.Data data = getData(githubUserDto.getGithubId()).getData();
+    public void save(User user, GithubUserIdDto githubUserIdDto) {
+        existUser(githubUserIdDto.getGithubId(), user.getId());
+        GetUserQuery.Data data = getData(githubUserIdDto.getGithubId()).getData();
 
         GithubUser githubUser = githubUserRepository.save(githubUserResponseToEntity(user, data.user()));
         githubWeekService.save(data.user(), githubUser);
@@ -65,6 +68,7 @@ public class GithubUserService {
                 .userImage(githubUser.avatarUrl().toString())
                 .bio(githubUser.bio())
                 .winCount(0)
+                .authStatus(AuthStatus.PENDING)
                 .build();
     }
 
@@ -89,11 +93,11 @@ public class GithubUserService {
     }
 
     public List<GithubUser> getGithubUserList() {
-        return githubUserRepository.findAll();
+        return githubUserRepository.findAllByAuthStatus(AuthStatus.ALLOWED);
     }
 
     public UserDto existByUser(User user) {
-        GithubUser githubUser = githubUserRepository.selectGithubUserByUser(user.getId());
+        GithubUser githubUser = githubUserRepository.selectGithubUserByUser(user.getId(), AuthStatus.ALLOWED);
 
         return UserDto.builder()
                 .email(user.getEmail())
@@ -103,11 +107,41 @@ public class GithubUserService {
                 .build();
     }
     @Transactional
-    public void update(User user, GithubUserDto githubUserDto) {
+    public void update(User user, GithubUserIdDto githubUserIdDto) {
         GithubUser githubUser = githubUserRepository.findByUser_Id(user.getId())
                 .orElseThrow(() -> {throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);});
 
         githubWeekService.removeWeek(githubUser.getGithubId());
-        save(user, githubUserDto);
+        save(user, githubUserIdDto);
+    }
+
+    public List<GithubUserDto> getPendingUser() {
+        List<GithubUser> githubUserList = githubUserRepository.findAllByAuthStatus(AuthStatus.PENDING);
+        return githubUserList.stream().map(
+                githubUser -> GithubUserDto.builder()
+                        .githubId(githubUser.getGithubId())
+                        .userImage(githubUser.getUserImage())
+                        .name(githubUser.getUser().getName())
+                        .email(githubUser.getUser().getEmail())
+                        .bio(githubUser.getBio())
+                        .build()
+        ).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void allowGithubUser(GithubUserIdDto githubUserIdDto) {
+        GithubUser githubUser = githubUserRepository.findById(githubUserIdDto.getGithubId()).orElseThrow(() -> {
+            throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);
+        });
+        githubUser.changeAuthStatus(AuthStatus.ALLOWED);
+    }
+
+    @Transactional
+    public void denyGithubUser(GithubUserIdDto githubUserIdDto) {
+        GithubUser githubUser = githubUserRepository.findById(githubUserIdDto.getGithubId()).orElseThrow(() -> {
+            throw CustomError.of(ErrorCode.GITHUB_USER_NOT_FOUND);
+        });
+        githubWeekService.removeWeek(githubUser.getGithubId());
+        githubUserRepository.deleteById(githubUser.getGithubId());
     }
 }
