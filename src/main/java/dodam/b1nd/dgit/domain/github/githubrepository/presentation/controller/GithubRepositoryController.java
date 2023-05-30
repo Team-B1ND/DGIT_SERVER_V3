@@ -3,6 +3,7 @@ package dodam.b1nd.dgit.domain.github.githubrepository.presentation.controller;
 import dodam.b1nd.dgit.domain.github.githubrepository.service.GithubRepositoryService;
 import dodam.b1nd.dgit.domain.github.githubrepository.presentation.dto.request.AddGithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.githubrepository.presentation.dto.response.GithubRepositoryDto;
+import dodam.b1nd.dgit.domain.user.domain.entity.Admin;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
@@ -37,5 +38,16 @@ public class GithubRepositoryController {
     public ResponseData<List<GithubRepositoryDto>> getRepositoryRank() {
         List<GithubRepositoryDto> repositoryList = githubRepositoryService.getRepositoryListSort();
         return ResponseData.of(HttpStatus.OK, "Repository 순위 조회 성공", repositoryList);
+    }
+
+    @AuthCheck
+    @Operation(description = "Repository 삭제")
+    @DeleteMapping(value = "/{id}")
+    public Response deleteRepository(
+            final @PathVariable long id,
+            final @RequestAttribute Admin admin
+    ) {
+        githubRepositoryService.deleteRepository(id);
+        return Response.of(HttpStatus.OK, "Repository 삭제 성공");
     }
 }
