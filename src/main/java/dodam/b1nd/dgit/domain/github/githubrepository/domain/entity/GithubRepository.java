@@ -1,6 +1,5 @@
 package dodam.b1nd.dgit.domain.github.githubrepository.domain.entity;
 
-import dodam.b1nd.dgit.domain.github.githubrepository.domain.entity.RepositoryOwner;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import lombok.*;
 
@@ -29,7 +28,7 @@ public class GithubRepository {
     @JoinColumn(name = "fk_user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_owner_id", nullable = false)
     private RepositoryOwner repositoryOwner;
 

@@ -90,6 +90,7 @@ public class GithubRepositoryService {
 
     private GithubRepositoryDto toDto(GithubRepository githubRepository) {
         return GithubRepositoryDto.builder()
+                .repositoryId(githubRepository.getId())
                 .repositoryName(githubRepository.getRepositoryName())
                 .totalStars(githubRepository.getTotalStars())
                 .githubId(githubRepository.getRepositoryOwner().getGithubId())
@@ -97,4 +98,12 @@ public class GithubRepositoryService {
                 .build();
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRepository(long id) {
+        GithubRepository githubRepository = githubRepositoryRepository.findById(id).orElseThrow(() -> {
+            throw CustomError.of(ErrorCode.GITHUB_REPOSITORY_NOT_FOUND);
+        });
+
+        githubRepositoryRepository.delete(githubRepository);
+    }
 }
