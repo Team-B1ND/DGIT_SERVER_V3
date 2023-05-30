@@ -90,6 +90,7 @@ public class GithubRepositoryService {
 
     private GithubRepositoryDto toDto(GithubRepository githubRepository) {
         return GithubRepositoryDto.builder()
+                .repositoryId(githubRepository.getId())
                 .repositoryName(githubRepository.getRepositoryName())
                 .totalStars(githubRepository.getTotalStars())
                 .githubId(githubRepository.getRepositoryOwner().getGithubId())
