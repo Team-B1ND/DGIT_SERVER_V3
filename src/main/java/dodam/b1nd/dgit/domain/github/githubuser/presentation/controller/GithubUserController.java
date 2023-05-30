@@ -78,6 +78,7 @@ public class GithubUserController {
     }
 
     @AuthCheck
+    @Operation(description = "Github User 승인")
     @PatchMapping("/allow")
     public Response allowGithubUser(
             final @RequestBody GithubUserIdDto githubUserIdDto,
@@ -88,6 +89,7 @@ public class GithubUserController {
     }
 
     @AuthCheck
+    @Operation(description = "Github User 거절")
     @PatchMapping("/deny")
     public Response denyGithubUser(
             final @RequestBody GithubUserIdDto githubUserIdDto,

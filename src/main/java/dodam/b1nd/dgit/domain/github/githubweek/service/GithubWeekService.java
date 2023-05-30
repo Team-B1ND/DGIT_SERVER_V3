@@ -23,7 +23,7 @@ public class GithubWeekService {
 
     private final GithubWeekRepository githubWeekRepository;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public GithubWeek save(GetUserQuery.User githubData, GithubUser githubUser) {
         return githubWeekRepository.save(
                 GithubWeek.builder()
@@ -65,7 +65,7 @@ public class GithubWeekService {
         });
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void updateInfo(GithubUser githubUser, GetUserQuery.User githubData) {
 
         int contribute = getContribute(githubData);
@@ -76,7 +76,7 @@ public class GithubWeekService {
         githubWeek.update(contribute);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void removeWeek(String githubId) {
         githubWeekRepository.deleteByGithubUser_GithubId(githubId);
     }
