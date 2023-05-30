@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class GithubRepositoryDto {
-
+    private long repositoryId;
     private String repositoryName;
     private int totalStars;
     private String githubId;
