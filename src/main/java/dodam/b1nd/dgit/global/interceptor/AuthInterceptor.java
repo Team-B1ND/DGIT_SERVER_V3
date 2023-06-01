@@ -1,9 +1,7 @@
 package dodam.b1nd.dgit.global.interceptor;
 
-import dodam.b1nd.dgit.domain.user.domain.entity.Admin;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
-import dodam.b1nd.dgit.global.lib.jwt.JwtType;
 import dodam.b1nd.dgit.global.lib.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
@@ -37,12 +35,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         try {
             String token = getTokenOfRequest(request).split(" ")[1];
-
-            Optional<Admin> adminByToken = jwtUtil.getAdminByToken(token);
-            if (adminByToken.isPresent()) {
-                request.setAttribute("admin", adminByToken.get());
-                return true;
-            }
 
             User user = jwtUtil.getUserByToken(token);
             request.setAttribute("user", user);

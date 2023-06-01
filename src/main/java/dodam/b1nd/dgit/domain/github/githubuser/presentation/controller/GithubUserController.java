@@ -7,7 +7,6 @@ import dodam.b1nd.dgit.domain.github.githubuser.service.GithubUserService;
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.response.GithubPullRequestDto;
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.response.GithubRankDto;
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.request.GithubUserIdDto;
-import dodam.b1nd.dgit.domain.user.domain.entity.Admin;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
@@ -70,9 +69,7 @@ public class GithubUserController {
     @AuthCheck
     @Operation(description = "모든 PENDING 유저 조회")
     @GetMapping("/pending")
-    public ResponseData<List<GithubUserDto>> getPendingUser(
-            final @RequestAttribute Admin admin
-    ) {
+    public ResponseData<List<GithubUserDto>> getPendingUser() {
         List<GithubUserDto> githubUserDtoList = githubUserService.getPendingUser();
         return ResponseData.of(HttpStatus.OK, "모든 PENDING 유저 조회 성공", githubUserDtoList);
     }
@@ -81,8 +78,7 @@ public class GithubUserController {
     @Operation(description = "Github User 승인")
     @PatchMapping("/allow")
     public Response allowGithubUser(
-            final @RequestBody GithubUserIdDto githubUserIdDto,
-            final @RequestAttribute Admin admin
+            final @RequestBody GithubUserIdDto githubUserIdDto
     ) {
         githubUserService.allowGithubUser(githubUserIdDto);
         return Response.of(HttpStatus.OK, "Github User 승인 성공");
@@ -92,8 +88,7 @@ public class GithubUserController {
     @Operation(description = "Github User 거절")
     @PatchMapping("/deny")
     public Response denyGithubUser(
-            final @RequestBody GithubUserIdDto githubUserIdDto,
-            final @RequestAttribute Admin admin
+            final @RequestBody GithubUserIdDto githubUserIdDto
     ) {
         githubUserService.denyGithubUser(githubUserIdDto);
         return Response.of(HttpStatus.OK, "Github User 거절 성공");

@@ -3,8 +3,6 @@ package dodam.b1nd.dgit.domain.auth.service;
 import dodam.b1nd.dgit.domain.auth.presentation.dto.request.AdminLoginDto;
 import dodam.b1nd.dgit.domain.auth.presentation.dto.response.TokenDto;
 import dodam.b1nd.dgit.domain.token.service.TokenService;
-import dodam.b1nd.dgit.domain.user.domain.entity.Admin;
-import dodam.b1nd.dgit.domain.user.repository.AdminRepository;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;

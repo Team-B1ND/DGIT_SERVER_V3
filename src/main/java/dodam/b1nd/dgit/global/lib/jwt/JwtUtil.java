@@ -1,8 +1,6 @@
 package dodam.b1nd.dgit.global.lib.jwt;
 
-import dodam.b1nd.dgit.domain.user.domain.entity.Admin;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
-import dodam.b1nd.dgit.domain.user.service.AdminService;
 import dodam.b1nd.dgit.domain.user.service.UserService;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
@@ -16,7 +14,6 @@ import org.w3c.dom.events.EventException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +21,6 @@ public class JwtUtil {
 
     private final JwtProperties jwtProperties;
     private final UserService userService;
-    private final AdminService adminService;
 
     private Key getSignKey(String secretKey) {
         byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
@@ -74,9 +70,5 @@ public class JwtUtil {
 
     public User getUserByToken(String token) {
         return userService.getUserByEmail(extractAllClaims(token).get("email").toString());
-    }
-
-    public Optional<Admin> getAdminByToken(String token) {
-        return adminService.getAdminByEmail(extractAllClaims(token).get("email").toString());
     }
 }
