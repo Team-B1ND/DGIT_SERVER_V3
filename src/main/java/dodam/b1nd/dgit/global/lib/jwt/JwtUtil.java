@@ -1,6 +1,7 @@
 package dodam.b1nd.dgit.global.lib.jwt;
 
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
+import dodam.b1nd.dgit.domain.user.domain.enums.Role;
 import dodam.b1nd.dgit.domain.user.service.UserService;
 import dodam.b1nd.dgit.global.error.CustomError;
 import dodam.b1nd.dgit.global.error.ErrorCode;
@@ -27,10 +28,11 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email, Long time, JwtType type) {
+    public String generateToken(String email, Long time, JwtType type, Role role) {
         Claims claims = Jwts.claims();
         claims.put("email", email);
         claims.put("type", type);
+        claims.put("role", role);
 
         Date now = new Date();
 

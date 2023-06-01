@@ -1,5 +1,6 @@
 package dodam.b1nd.dgit.domain.user.presentation.dto;
 
+import dodam.b1nd.dgit.domain.user.domain.enums.Role;
 import lombok.*;
 
 @Getter
@@ -11,4 +12,5 @@ public class UserDto {
     private String name;
     private String githubId;
     private String userImage;
+    private Role role;
 }

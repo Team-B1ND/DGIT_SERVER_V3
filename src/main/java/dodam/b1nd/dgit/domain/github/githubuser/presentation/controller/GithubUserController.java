@@ -8,6 +8,7 @@ import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.response.Github
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.response.GithubRankDto;
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.request.GithubUserIdDto;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
+import dodam.b1nd.dgit.domain.user.domain.enums.Role;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
 import dodam.b1nd.dgit.global.response.ResponseData;
@@ -66,7 +67,7 @@ public class GithubUserController {
         return ResponseData.of(HttpStatus.OK, "Pull-Request 순위 조회 성공", pullRequestList);
     }
 
-    @AuthCheck
+    @AuthCheck(roles = {Role.ADMIN})
     @Operation(description = "모든 PENDING 유저 조회")
     @GetMapping("/pending")
     public ResponseData<List<GithubUserDto>> getPendingUser() {
@@ -74,7 +75,7 @@ public class GithubUserController {
         return ResponseData.of(HttpStatus.OK, "모든 PENDING 유저 조회 성공", githubUserDtoList);
     }
 
-    @AuthCheck
+    @AuthCheck(roles = {Role.ADMIN})
     @Operation(description = "Github User 승인")
     @PatchMapping("/allow")
     public Response allowGithubUser(
@@ -84,7 +85,7 @@ public class GithubUserController {
         return Response.of(HttpStatus.OK, "Github User 승인 성공");
     }
 
-    @AuthCheck
+    @AuthCheck(roles = {Role.ADMIN})
     @Operation(description = "Github User 거절")
     @PatchMapping("/deny")
     public Response denyGithubUser(

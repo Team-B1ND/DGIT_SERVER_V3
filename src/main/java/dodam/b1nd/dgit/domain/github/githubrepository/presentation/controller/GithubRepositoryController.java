@@ -4,6 +4,7 @@ import dodam.b1nd.dgit.domain.github.githubrepository.service.GithubRepositorySe
 import dodam.b1nd.dgit.domain.github.githubrepository.presentation.dto.request.AddGithubRepositoryDto;
 import dodam.b1nd.dgit.domain.github.githubrepository.presentation.dto.response.GithubRepositoryDto;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
+import dodam.b1nd.dgit.domain.user.domain.enums.Role;
 import dodam.b1nd.dgit.global.annotation.AuthCheck;
 import dodam.b1nd.dgit.global.response.Response;
 import dodam.b1nd.dgit.global.response.ResponseData;
@@ -39,7 +40,7 @@ public class GithubRepositoryController {
         return ResponseData.of(HttpStatus.OK, "Repository 순위 조회 성공", repositoryList);
     }
 
-    @AuthCheck
+    @AuthCheck(roles = {Role.ADMIN})
     @Operation(description = "Repository 삭제")
     @DeleteMapping(value = "/{id}")
     public Response deleteRepository(

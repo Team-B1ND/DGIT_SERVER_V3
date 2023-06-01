@@ -104,6 +104,7 @@ public class GithubUserService {
                 .name(user.getName())
                 .userImage(githubUser == null ? null : githubUser.getUserImage())
                 .githubId(githubUser == null ? null : githubUser.getGithubId())
+                .role(user.getRole())
                 .build();
     }
     @Transactional

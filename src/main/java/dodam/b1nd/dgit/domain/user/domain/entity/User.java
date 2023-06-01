@@ -1,5 +1,6 @@
 package dodam.b1nd.dgit.domain.user.domain.entity;
 
+import dodam.b1nd.dgit.domain.user.domain.enums.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,9 +21,14 @@ public class User {
     @NotNull
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Role role;
+
     @Builder
-    public User(String email, String name) {
+    public User(String email, String name, Role role) {
         this.email = email;
         this.name = name;
+        this.role = role;
     }
 }
