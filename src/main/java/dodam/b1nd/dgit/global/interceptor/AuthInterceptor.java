@@ -39,18 +39,12 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        try {
+        User user = getUser(request);
 
-            User user = getUser(request);
+        List<Role> roleList = Arrays.stream(annotation.roles()).collect(Collectors.toList());
+        checkRole(roleList, user.getRole());
 
-            List<Role> roleList = Arrays.stream(annotation.roles()).collect(Collectors.toList());
-            checkRole(roleList, user.getRole());
-
-            request.setAttribute("user", user);
-
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        request.setAttribute("user", user);
 
         return true;
     }
