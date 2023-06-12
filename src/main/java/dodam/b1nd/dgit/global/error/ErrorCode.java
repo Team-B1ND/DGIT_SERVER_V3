@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저"),
-    PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않음"),
+    GITHUB_USER_PENDING(HttpStatus.CONFLICT, "수락 대기중인 유저"),
     ADMIN_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Admin"),
     WEEK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Week"),
     GITHUB_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 Github 유저"),
