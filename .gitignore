@@ -1,6 +1,6 @@
 HELP.md
 .gradle
-.DS_Store
+src/main/resources/application.yml
 .yml
 build/
 !gradle/wrapper/gradle-wrapper.jar
