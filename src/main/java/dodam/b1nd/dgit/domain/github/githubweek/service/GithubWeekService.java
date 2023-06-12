@@ -1,6 +1,7 @@
 package dodam.b1nd.dgit.domain.github.githubweek.service;
 
 import dodam.b1nd.dgit.domain.github.githubuser.domain.entity.GithubUser;
+import dodam.b1nd.dgit.domain.github.githubuser.domain.enums.AuthStatus;
 import dodam.b1nd.dgit.domain.github.githubweek.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.response.GithubRankDto;
 import dodam.b1nd.dgit.domain.github.githubweek.repository.GithubWeekRepository;
@@ -44,7 +45,7 @@ public class GithubWeekService {
     }
 
     public List<GithubRankDto> getWeekListSort() {
-        List<GithubWeek> githubWeekList = githubWeekRepository.findAll(Sort.by(Sort.Direction.DESC, "contribute"));
+        List<GithubWeek> githubWeekList = githubWeekRepository.findAllByGithubUser_AuthStatus(Sort.by(Sort.Direction.DESC, "contribute"), AuthStatus.ALLOWED);
 
         List<GithubRankDto> result = githubWeekList.stream()
                 .map(githubWeek ->

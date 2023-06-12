@@ -1,6 +1,7 @@
 package dodam.b1nd.dgit.domain.github.githubweek.service;
 
 import dodam.b1nd.dgit.domain.github.githubuser.domain.entity.GithubUser;
+import dodam.b1nd.dgit.domain.github.githubuser.domain.enums.AuthStatus;
 import dodam.b1nd.dgit.domain.github.githubweek.domain.entity.GithubWeek;
 import dodam.b1nd.dgit.domain.github.githubweek.domain.entity.WeekRank;
 import dodam.b1nd.dgit.domain.github.githubweek.presentation.dto.response.GithubRankRecordDto;
@@ -68,7 +69,7 @@ public class WeekRankService {
     }
 
     public List<GithubTopDto> getRankTop() {
-        return githubUserRepository.findTop3ByOrderByWinCountDesc().stream().map(githubUser ->
+        return githubUserRepository.findTop3ByAuthStatusOrderByWinCountDesc(AuthStatus.ALLOWED).stream().map(githubUser ->
             GithubTopDto.builder()
                     .githubId(githubUser.getGithubId())
                     .name(githubUser.getUser().getName())
