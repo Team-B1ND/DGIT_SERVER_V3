@@ -50,7 +50,7 @@ public class Scheduler {
         });
     }
 
-    @Scheduled(cron = "0 55 23 ? * 6")
+    @Scheduled(cron = "0 55 23 ? * 0")
     public void weekRankRecordSchedule() {
         GithubWeek week1st = githubWeekService.getWeek1st();
         weekRankService.saveRank(week1st);
