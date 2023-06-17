@@ -34,4 +34,8 @@ public class GithubWeek {
     public void update(int contribute) {
         this.contribute = contribute;
     }
+
+    public void setContributeZero() {
+        this.contribute = 0;
+    }
 }

@@ -31,7 +31,7 @@ public class WeekRank {
 
     @Builder
     public WeekRank(GithubUser githubUser, int contribute) {
-        this.rankedDate = LocalDate.now().minusDays(6);
+        this.rankedDate = LocalDate.now().minusDays(7);
         this.githubUser = githubUser;
         this.contribute = contribute;
     }

@@ -22,7 +22,7 @@ public class Scheduler {
     private final GithubRepositoryService githubRepositoryService;
     private final WeekRankService weekRankService;
 
-    @Scheduled(cron = "0 0 8,10,12,14,16,18,20,23 * * *")
+    @Scheduled(cron = "0 0 1,8,10,12,14,16,18,20,23 * * *")
     public void userSchedule() {
         githubUserService.getGithubUserList().forEach(githubUser -> {
             try {
@@ -50,9 +50,10 @@ public class Scheduler {
         });
     }
 
-    @Scheduled(cron = "0 55 23 ? * 0")
+    @Scheduled(cron = "0 5 1 ? * 0")
     public void weekRankRecordSchedule() {
         GithubWeek week1st = githubWeekService.getWeek1st();
         weekRankService.saveRank(week1st);
+        githubWeekService.setAllContributeZero();
     }
 }

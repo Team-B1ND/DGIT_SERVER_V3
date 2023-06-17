@@ -81,4 +81,11 @@ public class GithubWeekService {
     public void removeWeek(String githubId) {
         githubWeekRepository.deleteByGithubUser_GithubId(githubId);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void setAllContributeZero() {
+        for (GithubWeek githubWeek : githubWeekRepository.findAll()) {
+            githubWeek.setContributeZero();
+        }
+    }
 }
