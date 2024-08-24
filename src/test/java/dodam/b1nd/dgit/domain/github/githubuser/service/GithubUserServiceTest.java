@@ -5,6 +5,7 @@ import dodam.b1nd.dgit.domain.github.githubuser.domain.enums.AuthStatus;
 import dodam.b1nd.dgit.domain.github.githubuser.presentation.dto.request.GithubUserIdDto;
 import dodam.b1nd.dgit.domain.github.githubuser.repository.GithubUserRepository;
 import dodam.b1nd.dgit.domain.user.domain.entity.User;
+import dodam.b1nd.dgit.domain.user.domain.enums.Role;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,7 +44,7 @@ class GithubUserServiceTest {
     private Optional<GithubUser> githubUser() {
         return Optional.ofNullable(GithubUser.builder()
                 .githubId("test")
-                .user(new User("test@gmail.com", "테스트"))
+                .user(new User("test@gmail.com", "테스트", Role.STUDENT))
                 .totalContributions(10)
                 .pullRequest(10)
                 .userImage(null)
