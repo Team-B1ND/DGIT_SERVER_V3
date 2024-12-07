@@ -1,6 +1,8 @@
 package dodam.b1nd.dgit.domain.auth.service;
 
 import dodam.b1nd.dgit.domain.auth.presentation.dto.request.LoginDto;
+import dodam.b1nd.dgit.domain.auth.presentation.dto.request.ReProviderDto;
+import dodam.b1nd.dgit.domain.auth.presentation.dto.response.ReProvideToken;
 import dodam.b1nd.dgit.domain.auth.presentation.dto.response.TokenDto;
 import dodam.b1nd.dgit.domain.auth.presentation.dto.api.UserInfoDto;
 import dodam.b1nd.dgit.domain.token.service.TokenService;
@@ -41,6 +43,12 @@ public class AuthService {
         return TokenDto.builder()
                 .accessToken(tokenService.generateAccessToken(email, role))
                 .refreshToken(tokenService.generateRefreshToken(email, role))
+                .build();
+    }
+
+    public ReProvideToken reProvideToken(String email, @NotNull Role role){
+        return ReProvideToken.builder()
+                .accessToken(tokenService.generateAccessToken(email, role))
                 .build();
     }
 }

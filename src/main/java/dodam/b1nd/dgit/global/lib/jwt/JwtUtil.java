@@ -10,11 +10,11 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.events.EventException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.lang.invoke.WrongMethodTypeException;
 
 @Component
 @RequiredArgsConstructor
@@ -57,13 +57,12 @@ public class JwtUtil {
             throw CustomError.of(ErrorCode.TOKEN_NOT_PROVIDED);
         } catch (UnsupportedJwtException | MalformedJwtException e) {
             throw CustomError.of(ErrorCode.INVALID_TOKEN);
-        } catch (EventException e) {
-            throw e;
         }
     }
 
     public JwtType checkTokenType(String token) {
-        if ("REFRESH".equals(extractAllClaims(token).get("type"))) {
+        String tokenType = extractAllClaims(token).get("type").toString();
+        if ("REFRESH".equals(tokenType)) {
             return JwtType.REFRESH;
         } else {
             return JwtType.ACCESS;
