@@ -1,0 +1,66 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: src/main/resources/application.yml
+        env:
+          spring.datasource.url: ${{ secrets.DB_URL }}
+          spring.datasource.username: ${{ secrets.DB_USERNAME }}
+          spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+          app.jwt.key: ${{ secrets.JWT_KEY }}
+          app.oauth.client-id: ${{ secrets.CLIENT_ID }}
+          app.oauth.client-secret: ${{ secrets.CLIENT_SECRET }}
+          app.github.token: ${{ secrets.GIT_TOKEN }}
+          app.admin.pw: ${{ secrets.ADMIN_PASSWORD }}
+
+      - name: Display application.yml
+        run: cat src/main/resources/application.yml
+
+      - name: Build with Gradle
+        run: ./gradlew :dgit-application:dgit-rest-api:build -x test --parallel
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push Docker images
+        run: |
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/dgit:latest --push .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: EC2 Docker Run
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.LINUX_HOST }}
+          username: ${{ secrets.LINUX_USERNAME }}
+          key: ${{ secrets.LINUX_PRIVATE_KEY }}
+          port: ${{ secrets.LINUX_SSH_PORT }}
+          script: |
+            cd docker
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+            docker compose -f dgit-docker-compose.yml stop dodamdodam
+            docker compose -f dgit-docker-compose.yml rm -f dodamdodam
+            docker compose -f dgit-docker-compose.yml up dodamdodam --pull always -d
