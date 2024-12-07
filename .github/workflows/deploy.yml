@@ -37,7 +37,7 @@ jobs:
         run: cat src/main/resources/application.yml
 
       - name: Build with Gradle
-        run: ./gradlew :dgit-application:dgit-rest-api:build -x test --parallel
+        run: ./gradlew build -x test --parallel
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
