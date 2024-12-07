@@ -61,6 +61,6 @@ jobs:
           script: |
             cd docker
             docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-            docker compose -f dgit-docker-compose.yml stop dodamdodam
-            docker compose -f dgit-docker-compose.yml rm -f dodamdodam
-            docker compose -f dgit-docker-compose.yml up dodamdodam --pull always -d
+            docker compose -f dgit-docker-compose.yml stop dgit
+            docker compose -f dgit-docker-compose.yml rm -f dgit
+            docker compose -f dgit-docker-compose.yml up dgit --pull always -d
