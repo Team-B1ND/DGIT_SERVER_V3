@@ -42,8 +42,8 @@ public class GithubRepositoryService {
     public GithubRepository create(final User user, final AddGithubRepositoryDto request) {
         GetRepositoryQuery.Data data = getData(request.getGithubId(), request.getRepositoryName()).getData();
 
-        if(isExist(request.getRepositoryName())) {
-            throw new CustomError(GITHUB_REPOSITORY_EXIST);
+        if (isExist(request.getRepositoryName())) {
+            throw CustomError.of(GITHUB_REPOSITORY_EXIST);
         }
 
         return githubRepositoryRepository.save(GithubRepository.builder()
